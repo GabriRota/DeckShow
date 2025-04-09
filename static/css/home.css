@@ -1,0 +1,68 @@
+.filtro{ 
+    margin: 70px 0em 0em 0em;
+    height:fit-content;
+    background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
+    padding: 1em 3em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filtro button{
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    color: white;
+}
+
+.ordinamento{
+    color: white;
+    font-size: 18px;
+}
+
+.ordinamento select{
+    height: 30px;
+    width: 130px;
+    margin-left: 1em;
+    border-radius: 15px;
+    padding-left: 1em;
+    border: none;
+    color: rgb(0, 65, 150);
+}
+
+.grid-container{
+    margin: 20px 1em 1em;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,432px);
+    gap: 2em;
+    justify-content: center;
+}
+
+.inserzione{
+    text-align: left;
+    height: 410px;
+    background-color: white;
+}
+
+.immagine{
+    width: 432px;
+    height: 243px;
+    background-color: lightpink;
+}
+
+.titolo{
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.testo p{
+    font-family: sans-serif;
+    color: #606060;
+    margin: 0px;
+    padding: 0em 1em 0.5em 1em;
+}
+
+
+
