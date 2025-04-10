@@ -1,62 +1,44 @@
+{% extends 'layout.html' %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
-    <link href="{% static 'css/header.css' %}" rel="stylesheet">
-  </head>
-  <body>
-    <header>
-        <div class="nomeSito">Nome sito</div>
-        <div class="ricerca">
-          <input class="barraRicerca" placeholder="Search...">
-          <button type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
-        </div>
-        <div class="accesso">
-          {% if user.is_authenticated %}   
-          <div class="profile-container">
-            <a><button class="registrati">New Post</button></a>
-            <img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo" id="img-profilo">
-            <div class="dropdown-menu" id="dropdown-menu">
-              <a href="{% url 'user_profile' request.user.id %}">Profilo</a>
-              <a href="">Impostazioni</a>
-              <a href="logout">Log out</a>
-            </div>
-          </div>
-          {% else %}
-          <a href="{% url 'login' %}"><button class="accedi">Accedi</button></a>
-          <a href="{% url 'signup' %}"><button class="registrati">Registrati</button></a>
-          {% endif %}
-        </div>
-    </header>
-    <div class="filtro">
-      <button type="button" data-bs-toggle="collapse" data-bs-target="#filter_form" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fa-solid fa-filter" style="color: #ffffff;"></i> Filtri di ricerca <i class="fa-solid fa-caret-down"></i>
-      </button>
-      <div class="ordinamento">
-        <label for="sort">Ordina per: </label>
-        <select id="sort" name="sort" class="form-control">
-          <option value="data">Più recente</option>
-          <option value="data">Meno recente</option>
-          <option value="prezzo">Prezzo</option>
-        </select>
-    </div>
-    </div>
-    <div class="grid-container">
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-      <div class="inserzione"></div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
-</html>
+
+{% block title %}Esplora - DeckShow{% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<div class="container-1">
+  <div class="ricerca">
+    <input class="barraRicerca" placeholder="Search...">
+    <button type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
+  </div>
+</div>
+
+<div class="filtro">
+  <button type="button" data-bs-toggle="collapse" data-bs-target="#filter_form" aria-controls="navbarColor01"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fa-solid fa-filter" style="color: #ffffff;"></i> Filtri di ricerca <i class="fa-solid fa-caret-down"></i>
+  </button>
+  <div class="ordinamento">
+    <label for="sort">Ordina per: </label>
+    <select id="sort" name="sort" class="form-control">
+      <option value="data">Più recente</option>
+      <option value="data">Meno recente</option>
+      <option value="prezzo">Prezzo</option>
+    </select>
+  </div>
+</div>
+<div class="grid-container">
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+  <div class="inserzione"></div>
+</div>
+
+{% endblock %}

@@ -21,7 +21,7 @@ header{
     box-sizing: border-box;
 }
 
-.Sito {
+.sito {
     display: flex;
     text-align: left;
     align-items: center;
@@ -96,13 +96,15 @@ button:active{
     position: fixed;
     top: 70px;
     left: 0px;
-    padding: 1em 0.5em;
-    width: 48px;
-    height: calc(100vh - 70px - 2em);
+    padding: 2em 1em;
+    width: 70px;
+    height: calc(100vh - 70px);
     background-color: rgb(0, 65, 150);
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .bar a button{
@@ -125,10 +127,12 @@ button:active{
     border-radius: 50%;
 }
 
+
 @media screen and (max-width: 600px) {
-    .nomeSito{
-        display: none;
-    }
+
+    main {
+        margin-left: 0 !important; 
+      }
 
     .bar {
         position: fixed;
@@ -137,17 +141,30 @@ button:active{
         left: 0;
         width: 100%;
         height: 48px;
-        box-sizing: border-box;
         padding: 1em;
         flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0 1em;
+        gap: 2em;
+    }
+
+    .upper-bar,
+    .bottom-bar {
         display: flex;
-        justify-content: space-between;
-        background-color: rgb(0, 65, 150);
+        flex-direction: row;
+        gap: 2em;
     }
 
     .bar a button {
-        margin-bottom: 0;
-        flex: 1;
+        margin: 0;
+        flex: 0 0 auto;
     }
   
+  }
+
+  @media screen and (max-width: 450px) {
+    .nomeSito{
+        display: none;
+    }
   }
