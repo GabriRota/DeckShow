@@ -14,11 +14,10 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    padding: 12px;
+    padding: 15px;
     height: 70px;
-    background-color: white;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255)) 1;
+    background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
+    border: none;
     box-sizing: border-box;
 }
 
@@ -27,7 +26,7 @@ header{
     text-align: left;
     align-items: center;
     flex: 1;
-    color:rgb(0, 65, 150);
+    color:rgb(255, 217, 0);
     font-size: 30px;
     font-family: sans-serif;
     font-weight: 600;
@@ -38,7 +37,7 @@ header{
     width: 40px;
     border-radius: 50%;
     border: none;
-    background-color:  rgb(0, 65, 150);
+    background-color:rgb(255, 217, 0);
     cursor: pointer;
     margin-right: 0.5em;
 }
@@ -54,34 +53,20 @@ header{
 .profile-container{
     position: relative;
     display: flex;
-}
-
-.dropdown-menu{
-    position: absolute;
-    right: 0px;
-    top: 56px;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.dropdown-menu a{
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-    transition: 0.3s ease;
-    border-bottom:1px solid lightgrey;
-}
-
-.dropdown-menu a:hover{
-    background-color: rgb(0, 65, 150);
-    color: white;
+    align-items: center;
+    gap: 0.5em;
 }
 
 .accesso button{
     border-radius:20px;
     height: 40px;
+    border: 2px solid rgb(0, 65, 150);
     transition-duration: 0.2s;
+}
+
+.profile-container button{
+    background-color: transparent;
+    border: none;
 }
 
 button:hover{
@@ -96,25 +81,15 @@ button:active{
 .accedi{
     background-color: white;
     width: 70px;
-    border: 2px solid rgb(0, 65, 150);
     color: rgb(0, 65, 150);
 }
 
 .registrati{
     margin-left: 1em;
-    background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
+    background-color: rgb(255, 217, 0);
     width: 80px;
     border: none;
-    color: white;
-}
-
-header img{
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: 2px solid rgb(0, 110, 255);
-    cursor: pointer;
-    margin-left: 1em;
+    color: rgb(0, 65, 150);
 }
 
 .bar{
@@ -124,10 +99,7 @@ header img{
     padding: 1em 0.5em;
     width: 48px;
     height: calc(100vh - 70px - 2em);
-    background-color: white;
-    border-width: 0px 3px;
-    border-style: solid;
-    border-color:  rgb(0, 65, 150);
+    background-color: rgb(0, 65, 150);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -137,13 +109,45 @@ header img{
     height: 40px;
     width: 40px;
     border: none;
-    background-color: white;
+    background-color: transparent;
     margin-bottom: 1em;
+}
+
+.img-profilo{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.img-profilo-2{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 @media screen and (max-width: 600px) {
     .nomeSito{
         display: none;
+    }
+
+    .bar {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 1em;
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(0, 65, 150);
+    }
+
+    .bar a button {
+        margin-bottom: 0;
+        flex: 1;
     }
   
   }
