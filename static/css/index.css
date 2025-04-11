@@ -1,8 +1,13 @@
-.container-1{
-    padding: 0 1em;
+.container-1 {
+    position: fixed;
+    top: 70px;
+    left: 70px;
+    right: 0;
+    padding: 1em;
+    background-color: white;
     display: flex;
     justify-content: center;
-
+    box-sizing: border-box;
 }
 .ricerca{
     width: 100%;
@@ -14,6 +19,7 @@
     box-sizing: border-box;
     border: 1px solid rgb(145, 145, 145);
     align-items: center;
+    z-index: 999;
 }
 
 .barraRicerca{
@@ -38,10 +44,10 @@
 }
 
 .filtro{ 
-    margin: 70px 0em 0em 0em;
+    margin: 56px 1em 0em 1em;
     height:fit-content;
     background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
-    padding: 1em 3em;
+    padding: 1em 2em;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -54,6 +60,12 @@
     color: white;
 }
 
+.filtro p{
+    display: inline-block;
+    padding-left: 0.5em;
+    margin: 0px;
+}
+
 .ordinamento{
     color: white;
     font-size: 18px;
@@ -62,7 +74,7 @@
 .ordinamento select{
     height: 30px;
     width: 130px;
-    margin-left: 1em;
+    margin-left: 0.5em;
     border-radius: 15px;
     padding-left: 1em;
     border: none;
@@ -70,41 +82,48 @@
 }
 
 .grid-container{
-    margin: 20px 1em 1em;
-    flex-grow: 1;
+    margin: 2em 1em;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 432);
+    grid-template-columns: repeat(auto-fit, 432px);
     gap: 2em;
     justify-content: center;
 }
 
 .inserzione{
-    text-align: left;
-    height: 432px;
-    background-color: white;
+    width: 100%;
+    height: 480px;
+    background-color: rgb(156, 156, 156);
 }
 
-.immagine{
-    height: 243px;
-    background-color: lightpink;
+p{
+    margin: 0.5em 0 0 0;
 }
 
-.titolo{
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    margin: 0;
-    font-family: sans-serif;
-}
 
-.testo p{
-    font-family: sans-serif;
-    color: #606060;
-    margin: 0px;
-    padding: 0em 1em 0.5em 1em;
-}
 
 @media screen and (max-width: 600px) {
+    .container-1{
+        left: 0px;
+    }
+
+    .filtro{
+        padding: 1em;
+        margin: 56px 0em;
+    }
+
+    .filtro p{
+        display: none;
+    }
+
+    .grid-container{
+        margin: 0;
+        grid-template-columns: 1fr;
+        gap: 2em;
+    }
+
     .inserzione{
-        width: 100%;
+        width: 100vW;
+        height: auto;
     }
 }
 
