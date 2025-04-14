@@ -93,13 +93,46 @@
     width: 100%;
     height: 480px;
     background-color: rgb(156, 156, 156);
+    padding-bottom: 1em;
 }
 
-p{
+.immagini {
+    display: flex;
+    width: 100%;
+    background-color: red;
+    margin-bottom: 1em;
+}
+
+.img-wrapper{
+    aspect-ratio: 3/4;
+    flex: 1;
+    overflow: hidden;
+    background-color: aquamarine;
+}
+
+.contenuto-post p {
     margin: 0.5em 0 0 0;
+    padding: 0 1em;
 }
 
+.bottom-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+    padding: 1em 1em 0 1em;
+    border-top: 1px solid #ccc;
+}
 
+.simboli i {
+    margin-right: 1em;
+    color: white;
+}
+
+.data {
+    font-size: 0.9em;
+    color: white;
+}
 
 @media screen and (max-width: 600px) {
     .container-1{
@@ -125,6 +158,8 @@ p{
         width: 100vW;
         height: auto;
     }
+
+    
 }
 
 
