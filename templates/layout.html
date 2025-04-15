@@ -18,7 +18,7 @@
           {% if user.is_authenticated %}   
           <div class="profile-container">
             <a href="{% url 'logout' %}" title="Log out"><button><i class="fa-solid fa-right-from-bracket fa-flip-horizontal fa-xl" style="color: #ffffff;"></i></button></a>
-            <img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo-2">
+            <a href="{% url 'user_profile' request.user.id %}" title="Profilo" style="height: 42px;"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo-2"></button></a>
           </div>
           {% else %}
           <a href="{% url 'login' %}"><button class="accedi">Accedi</button></a>
