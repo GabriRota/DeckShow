@@ -18,7 +18,7 @@
           {% if user.is_authenticated %}   
           <div class="profile-container">
             <a href="{% url 'logout' %}" title="Log out"><button><i class="fa-solid fa-right-from-bracket fa-flip-horizontal fa-xl" style="color: #ffffff;"></i></button></a>
-            <img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo">
+            <img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo-2">
           </div>
           {% else %}
           <a href="{% url 'login' %}"><button class="accedi">Accedi</button></a>
@@ -35,7 +35,7 @@
       </div>
       <div class="bottom-bar">
         <a href="" title="Impostazioni"><button><i class="fa-solid fa-gear fa-2xl" style="color: #ffffff;"></i></button></a>
-        <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo" id="img-profilo"></button></a>
+        <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-1" id="img-profilo-1"></button></a>
       </div>
     </div>
     {% else %}

@@ -74,10 +74,3 @@ def perTe(request):
         user_profile = Profile.objects.get(user=user_object)
     return render(request, 'perTe.html', {'user_profile': user_profile})
 
-def layout(request):
-    user_profile = None
-    if request.user.is_authenticated:
-        user_object = User.objects.get(username=request.user.username)
-        user_profile = Profile.objects.get(user=user_object)
-    return render(request, 'layout.html', {'user_profile': user_profile})
-

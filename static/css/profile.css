@@ -5,9 +5,8 @@ body{
 
 .profile-info{
     position: relative;
-    margin-top: 70px;
     width: 100%;
-    height: 35vh;
+    height: 12em;
     color: white;
     font-weight: 600;
     font-size: 24px;
@@ -15,10 +14,14 @@ body{
     margin-bottom: 50px;
 }
 
-.img-big{
+.profile-info p{
+    padding-left: 1.5em;
+}
+
+.banner{
     background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
     width: 100%;
-    height: 30vh;
+    height: 10em;
     position: relative
 }
 
@@ -26,41 +29,91 @@ body{
     position: absolute;
     left: 3em;
     bottom: 0px;
-    height: 14vh;
+    height: 5.5em;
     display: flex;
     align-items: center;
 }
 
 .img-profilo-big{
-    height: 14vh;
-    width: 14vh;
+    height: 5.5em;
+    width: 5.5em;
     border-radius: 50%;
-}
-
-.nome-utente{
-    margin-left: 2em;
 }
 
 .stats{
    position: absolute;
-   right: 3em;
+   right: 2em;
    bottom: 0em;
    height: 14vh;
    display: flex;
    align-items: center;
 }
 
-.stats p{
-    padding-left: 2em;
-}
-
 .container-padre{
     display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+    align-items: flex-start;
+    padding: 0 2em;
+    box-sizing: border-box;
+}
+
+.grid-container{
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 432px);
+    gap: 2em;
+    justify-content: center;
+}
+
+.inserzione{
+    width: 100%;
+    height: 480px;
+    background-color: rgb(156, 156, 156);
+    padding-bottom: 1em;
+}
+
+.immagini {
+    display: flex;
+    width: 100%;
+    background-color: red;
+    margin-bottom: 1em;
+}
+
+.img-wrapper{
+    aspect-ratio: 3/4;
+    flex: 1;
+    overflow: hidden;
+    background-color: aquamarine;
+}
+
+.contenuto-post p {
+    margin: 0.5em 0 0 0;
+    padding: 0 1em;
+}
+
+.bottom-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+    padding: 1em 1em 0 1em;
+    border-top: 1px solid #ccc;
+}
+
+.simboli i {
+    margin-right: 1em;
+    color: white;
+}
+
+.data {
+    font-size: 0.9em;
+    color: white;
 }
 
 .sidebar{
     width: 432px;
-    margin: 20px;
     height: fit-content;
     background-color: white;
 }
@@ -135,32 +188,71 @@ input[type="radio"]:checked + label{
     color: rgb(0, 65, 150);
     font-weight: 600;
 }
-
-
-
-
-
-
-
-
-
-.container-padre {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
-  }
   
   /* Allarga il contenitore centrale quando non c’è la sidebar */
-  @media screen and (max-width: 900px) {
-    .container-padre {
-      flex-direction: column;
+  @media screen and (max-width: 950px) {
+    .profile-info{
+        height: 10em;
+    }
+    .sidebar{
+        display: none;
     }
   
     .grid-container {
       width: 100%;
     }
+    .profile-data{
+        top: 0.5em;
+        position: absolute;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        left: 0;
+    }
+
+    .nome-utente{
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        margin-top: 0.5em;
+    }
+
+    .stats{
+        left: 0;
+        width: 100%;
+        text-align: center;
+        height: auto;
+    }
+
+    .stats p{
+        padding: 0;
+        flex: 1;
+    }
+
+    .profile-info p{
+        font-size: 20px;
+        padding-left: 0;
+    }
   }
+
+  @media screen and (max-width: 600px) {
+
+    .grid-container{
+        margin: 0;
+        grid-template-columns: 1fr;
+        gap: 2em;
+    }
+
+    .inserzione{
+        width: 100vW;
+        height: auto;
+    }
+
+    
+}
+
+
   
 
 

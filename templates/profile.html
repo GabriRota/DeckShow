@@ -1,125 +1,119 @@
+{% extends 'layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="{% static 'css/header.css' %}" rel="stylesheet">
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
-    <link href="{% static 'css/profile.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/css/flag-icon.min.css">
 
-</head>
-<body>
-    <header>
-          <div class="nomeSito">Nome sito
-            <a href="{% url 'perTe' %}" title="Post delle persone che segui"><button><i class="fa-solid fa-user-group fa-lg" style="color: #ffffff;"></i></button></a><!--DA INSERIRE LINK-->
-            <a href="{% url 'index' %}" title="Esplora nuovi post"><button><i class="fa-solid fa-compass fa-xl" style="color: #ffffff;"></i></button></a>
-          </div>
-        <div class="ricerca">
-          <input class="barraRicerca" placeholder="Search...">
-          <button type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
+{% block title %}Esplora - DeckShow{% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="profile-info">
+  <div class="banner"></div>
+  <div class="profile-data">
+    <img src="{{ user_profile.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
+    <p class="nome-utente">
+      {{ user.username }}
+      {% if user_profile.nationality %}
+      <span class="flag-icon flag-icon-{{ user_profile.nationality|lower }}"></span>
+      {% endif %}
+    </p>
+  </div>
+  <div class="stats">
+    <p>Post: 22</p>
+    <p>Follower: 33</p>
+    <p>Seguiti: 26</p>
+  </div>
+</div>
+<div class="container-padre">
+  <div class="grid-container">
+    <div class="inserzione">
+      <div class="immagini">
+        <div class="img-wrapper">
         </div>
-        <div class="accesso">
-          <div class="profile-container">
-            <a><button class="registrati">New Post</button></a>
-            <img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo" id="img-profilo">
-            <div class="dropdown-menu" id="dropdown-menu">
-              <a href="">Impostazioni</a>
-              <a href="{% url 'logout' %}">Log out</a>
-            </div>
-          </div>
+        <div class="img-wrapper">
         </div>
-    </header>
-    <div class="profile-info">
-      <div class="img-big">
+      </div>
 
+      <div class="contenuto-post">
+        <p class="titolo">Titolo del post</p>
+        <p class="autore">Autore del post</p>
+        <p class="descrizione">Descrizione breve del contenuto del post</p>
+        <p class="descrizione">Altra informazione utile</p>
+        <p class="descrizione">Ancora un'altra riga descrittiva</p>
       </div>
-      <div class="profile-data">
-        <img src="{{ user_profile.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
-        <p class="nome-utente">
-          {{ user.username }}
-          {% if user_profile.nationality %}
-            <span class="flag-icon flag-icon-{{ user_profile.nationality|lower }}"></span>
-          {% endif %}
-        </p>
-      </div>
-      <div class="stats">
-        <p>Post: 22</p>
-        <p>Follower: 33</p>
-        <p>Seguiti: 26</p>
+
+      <div class="bottom-post">
+        <div class="simboli">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-clipboard"></i>
+        </div>
+        <div class="data">10 Aprile 2025</div>
       </div>
     </div>
-    <div class="container-padre">
-      <div class="grid-container">
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-        <div class="inserzione"></div>
-      </div>
-      <div class="sidebar">
-        <div class="radio">
-          <input type="radio" name="radio" id="opt1" checked="checked">
-          <label for="opt1" class="follower"><span>Follower</span></label>
-          <input type="radio" name="radio" id="opt2">
-          <label for="opt2" class="seguiti"><span>Seguiti</span></label>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
-        <div class="account">
-          <a href="">
-            <div class="img-profilo"></div>
-            <p class="acc-name">NOME_ACCOUNT</p>
-          </a>
-          <button>Unfollow</button>
-        </div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+    <div class="inserzione"></div>
+  </div>
+  <div class="sidebar">
+    <div class="radio">
+      <input type="radio" name="radio" id="opt1" checked="checked">
+      <label for="opt1" class="follower"><span>Follower</span></label>
+      <input type="radio" name="radio" id="opt2">
+      <label for="opt2" class="seguiti"><span>Seguiti</span></label>
     </div>
-</body>
-</html>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+    <div class="account">
+      <a href="">
+        <div class="img-profilo"></div>
+        <p class="acc-name">NOME_ACCOUNT</p>
+      </a>
+      <button>Unfollow</button>
+    </div>
+  </div>
+  {% endblock %}
