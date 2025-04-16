@@ -18,7 +18,7 @@
           {% if user.is_authenticated %}   
           <div class="profile-container">
             <a href="{% url 'logout' %}" title="Log out"><button><i class="fa-solid fa-right-from-bracket fa-flip-horizontal fa-xl" style="color: #ffffff;"></i></button></a>
-            <a href="{% url 'user_profile' request.user.id %}" title="Profilo" style="height: 42px;"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo-2"></button></a>
+            <a href="{% url 'user_profile' request.user.id %}" title="Profilo" style="height: 42px;"><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-2" id="img-profilo-2"></a>
           </div>
           {% else %}
           <a href="{% url 'login' %}"><button class="accedi">Accedi</button></a>
@@ -34,14 +34,16 @@
         <a href="" title="Crea un post"><button><i class="fa-solid fa-square-plus fa-2xl" style="color:#ffffff;"></i></button></a>
       </div>
       <div class="bottom-bar">
-        <a href="" title="Impostazioni"><button><i class="fa-solid fa-gear fa-2xl" style="color: #ffffff;"></i></button></a>
+        <a href="{% url 'impostazioni' %}" title="Impostazioni"><button><i class="fa-solid fa-gear fa-2xl" style="color: #ffffff;"></i></button></a>
         <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-1" id="img-profilo-1"></button></a>
       </div>
     </div>
     {% else %}
     {% endif %}
-
-    <main style="margin-left: 70px; padding: 1em 0; margin-top: 70px;">
+    <main style="
+    margin-left: {% if user.is_authenticated %}70px{% else %}0{% endif %};
+    padding: 1em 0;
+    margin-top: 70px;">
       {% block content %}
       {% endblock %}
     </main>

@@ -43,13 +43,14 @@ def signup(request):
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
-
-                #voglio che venga creato anche un profilo quando viene fatto l'account
                 #una volta creato l'account, l'utente viene reindirizzato nella pagina per modificare il profilo
+                user_login = auth.authenticate(username = username, password = password)
+                auth.login(request, user_login)
+
                 user_model = User.objects.get(username = username)
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
                 new_profile.save()
-                return redirect('login')
+                return redirect('settings')
 
         else:
             messages.info(request, 'Le password non coincidono')
@@ -68,9 +69,21 @@ def logout(request):
     return redirect('login')
 
 def perTe(request):
-    user_profile = None
-    if request.user.is_authenticated:
-        user_object = User.objects.get(username=request.user.username)
-        user_profile = Profile.objects.get(user=user_object)
     return render(request, 'perTe.html', {'user_profile': user_profile})
+
+@login_required(login_url='login')
+def impostazioni(request):
+    user_object = request.user
+    user_profile = Profile.objects.get(user=user_object)
+    if request.method == 'POST':
+        user_profile.name = request.POST.get('name', user_profile.name)
+        user_profile.surname = request.POST.get('surname', user_profile.surname)
+        user_profile.nationality = request.POST.get('nationality', user_profile.name)
+
+        if 'img_profilo' in request.FILES:
+            user_profile.img_profilo = request.FILES['img_profilo']
+        
+        user_profile.save()
+        return redirect('user_profile', user_id=request.user.id)
+    return render(request, 'impostazioni.html', {'user_profile': user_profile})
 

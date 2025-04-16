@@ -14,7 +14,7 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    padding: 15px;
+    padding: 1em;
     height: 70px;
     background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
     border: none;
@@ -127,6 +127,18 @@ button:active{
     border-radius: 50%;
 }
 
+.with-bar {
+    margin-left: 70px;
+    padding: 1em 0;
+    margin-top: 70px;
+  }
+  
+  .no-bar {
+    margin-left: 0;
+    padding: 1em 0;
+    margin-top: 70px;
+  }
+  
 
 @media screen and (max-width: 600px) {
 

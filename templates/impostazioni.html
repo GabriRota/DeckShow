@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impostazioni</title>
+    <link rel="stylesheet" href="{% static 'css/impostazioni.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <a href="{% url 'index' %}" class="home-button"><i title="Esplora" class="fa-solid fa-house fa-xl"
+            style="color: #ffffff;"></i></a>
+    <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><img src="{{user_profile.img_profilo.url}}" class="img-profile" alt="" id="img-profile"></a>
+    <div class="container">
+        <h1>Impostazioni <span class="username">@{{user.username}}</span></h1>
+        <form action="{% url 'impostazioni' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="" class="label-img-profilo">Immagine profilo</label>
+            <label for="img_profilo" class="image-upload">
+                <img src="{{user_profile.img_profilo.url}}" class="img-profile-preview" alt="" id="img-profile-preview">
+                <span class="edit-icon"><i class="fa-solid fa-pen fa-xl" style="color: #ffffff;"></i></span>
+            </label>
+            <input type="file" name="img_profilo" id="img_profilo" style="display: none;" accept="image/*">
+
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" value="{{ user_profile.name }}" placeholder="Inserisci il tuo nome">
+
+            <label for="surname">Cognome</label>
+            <input type="text" name="surname" id="surname" value="{{ user_profile.surname }}" placeholder="Inserisci il tuo cognome">
+
+            <label for="nationality">Nazionalità (es. IT, US)</label>
+            <input type="text" name="nationality" id="nationality" value="{{ user_profile.nationality }}" maxlength="2" placeholder="IT">
+
+            <button class="salva-button" type="submit">Salva modifiche</button>
+        </form>
+    </div>
+</body>
+
+</html>
