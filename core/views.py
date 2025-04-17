@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile
+from django_countries import countries
+
 
 def index(request):
     user_profile = None
@@ -78,12 +80,15 @@ def impostazioni(request):
     if request.method == 'POST':
         user_profile.name = request.POST.get('name', user_profile.name)
         user_profile.surname = request.POST.get('surname', user_profile.surname)
-        user_profile.nationality = request.POST.get('nationality', user_profile.name)
+        user_profile.nationality = request.POST.get('nationality', user_profile.nationality)
 
         if 'img_profilo' in request.FILES:
             user_profile.img_profilo = request.FILES['img_profilo']
         
         user_profile.save()
         return redirect('user_profile', user_id=request.user.id)
-    return render(request, 'impostazioni.html', {'user_profile': user_profile})
+    return render(request, 'impostazioni.html', {
+        'user_profile': user_profile,
+        'countries': list(countries)
+    })
 

@@ -32,12 +32,35 @@
             <label for="surname">Cognome</label>
             <input type="text" name="surname" id="surname" value="{{ user_profile.surname }}" placeholder="Inserisci il tuo cognome">
 
-            <label for="nationality">Nazionalità (es. IT, US)</label>
-            <input type="text" name="nationality" id="nationality" value="{{ user_profile.nationality }}" maxlength="2" placeholder="IT">
+            <label for="nationality">Nazionalità</label>
+            <select name="nationality" id="nationality">
+                {% for code, country in countries %}
+                    <option value="{{ code }}" {% if user_profile.nationality == code %}selected{% endif %}>{{ country }}</option>
+                {% endfor %}
+            </select>
 
             <button class="salva-button" type="submit">Salva modifiche</button>
         </form>
     </div>
 </body>
+
+<script>
+    const fileInput = document.getElementById('img_profilo');
+    const previewImg = document.getElementById('img-profile-preview');
+
+    //funzione per il cambio della immagine di profilo
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 
 </html>

@@ -4,6 +4,7 @@
 {% block title %}Esplora - DeckShow{% endblock %}
 {% block extra_css %}
 <link href="{% static 'css/profile.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css"> <!--Libreria delle bandiere-->
 {% endblock %}
 {% block content %}
 <div class="profile-info">
@@ -11,10 +12,10 @@
   <div class="profile-data">
     <img src="{{ user_profile.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
     <p class="nome-utente">
-      {{ user.username }}
       {% if user_profile.nationality %}
-      <span class="flag-icon flag-icon-{{ user_profile.nationality|lower }}"></span>
+      <span class="fi fi-{{ user_profile.nationality|lower }}"></span>
       {% endif %}
+      {{ user.username }}
     </p>
   </div>
   <div class="stats">
