@@ -71,10 +71,11 @@ def logout(request):
     return redirect('login')
 
 def perTe(request):
+    user_profile = Profile.objects.get(user=request.user)
     return render(request, 'perTe.html', {'user_profile': user_profile})
 
 @login_required(login_url='login')
-def impostazioni(request):
+def settings(request):
     user_object = request.user
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
@@ -87,8 +88,13 @@ def impostazioni(request):
         
         user_profile.save()
         return redirect('user_profile', user_id=request.user.id)
-    return render(request, 'impostazioni.html', {
+    return render(request, 'settings.html', {
         'user_profile': user_profile,
         'countries': list(countries)
     })
+
+def create(request):
+    user_object = request.user
+    user_profile = Profile.objects.get(user=user_object)
+    return render(request, 'create.html', {'user_profile': user_profile})
 

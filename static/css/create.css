@@ -1,0 +1,138 @@
+body{
+    margin: 0px;
+    background: radial-gradient(circle,  rgb(0, 110, 255) 18%, rgb(0, 65, 150));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.home-button{
+    position: absolute;
+    top: 2em;
+    left: 2em;
+}
+
+.img-profile{
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    position: absolute;
+    top: 1.5em;
+    right: 1.5em;
+}
+
+.container{
+    height: auto;
+    width: 500px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 3em;
+}
+
+h1{
+    margin: 0px;
+    margin-bottom: 1em;
+}
+
+.username{
+    opacity: 0.5;
+    font-weight: normal;
+}
+
+.image-row{
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+}
+
+.image-upload{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    display: inline-block;
+}
+
+.label-img{
+    margin-bottom: 8px;
+    text-align: center;
+    display: block;
+}
+
+.upload-placeholder {
+    width: 120px;  
+    height: 160px;
+    border: 2px dashed #004196;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.upload-placeholder:hover{
+    cursor: pointer;
+}
+
+form label {
+    display: flex;
+    margin-bottom: 0.5em;
+}
+
+form input,
+form select{
+    display: flex;
+    width: 100%;
+    height: 32px;
+    border: 1px solid lightgrey;
+    margin-bottom: 20px;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 1em;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+form textarea{
+    display: flex;
+    font-family: sans-serif;
+    width: 100%;
+    border: 1px solid lightgrey;
+    margin-bottom: 20px;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 1em;
+    box-sizing: border-box;
+}
+
+.salva-button{
+    background-color: rgb(20, 73, 143);
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    width: 100%;
+}
+
+button:hover{
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+button:active{
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 400px) {
+
+    .container{
+        padding: 2em;
+    }
+    
+}

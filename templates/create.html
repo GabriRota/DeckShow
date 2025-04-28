@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea</title>
+    <link rel="stylesheet" href="{% static 'css/create.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <a href="{% url 'index' %}" class="home-button"><i title="Esplora" class="fa-solid fa-house fa-xl"
+            style="color: #ffffff;"></i></a>
+    <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><img src="{{user_profile.img_profilo.url}}"
+            class="img-profile" alt="" id="img-profile"></a>
+    <div class="container">
+        <h1>Nuovo post <span class="username">@{{user.username}}</span></h1>
+        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="image-row">
+                <!-- Fronte carta -->
+                <div class="image-upload">
+                    <label for="img-front" class="label-img">Fronte carta</label>
+                    <label for="img-front" class="upload-placeholder">
+                        <i class="fa-solid fa-plus fa-2xl" style="color: white;"></i>
+                    </label>
+                    <input type="file" name="img-front" id="img-front" style="display: none;" accept="image/*" required>
+                </div>
+
+                <!-- Retro carta -->
+                <div class="image-upload">
+                    <label for="img-back" class="label-img">Retro carta</label>
+                    <label for="img-back" class="upload-placeholder">
+                        <i class="fa-solid fa-plus fa-2xl" style="color: white;"></i>
+                    </label>
+                    <input type="file" name="img-back" id="img-back" style="display: none;" accept="image/*" required>
+                </div>
+            </div>
+
+            <label for="title">Titolo</label>
+            <input type="text" name="title" id="title" placeholder="Inserisci il titolo {es: Pikachu 58/102 base set English near mint}" required>
+
+            <label for="desxription">Descrizione</label>
+            <textarea name="description" id="description" rows="3" placeholder="Inserisci la descrizione {es: la carta ha alcune imperfezioni sugli angoli} "></textarea>
+
+            <label for="conditions">Condizioni</label>
+            <select name="conditions" id="conditions" required>
+                <option value="Mint">Mint</option>
+                <option value="Near mint">Near mint</option>
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Light played">Light played</option>
+                <option value="Played">Played</option>
+                <option value="Poor">Poor</option>
+            </select>
+
+            <label for="link">Link di vendita</label>
+            <input type="url" name="link" id="link" placeholder="Campo non obbligatorio.">
+
+            <button class="salva-button" type="submit">Pubblica post</button>
+        </form>
+    </div>
+</body>
+
+<script>
+
+</script>
+
+</html>

@@ -31,10 +31,10 @@
       <div class="upper-bar">
         <a href="{% url 'perTe' %}" title="Post delle persone che segui"><button><i class="fa-solid fa-user-group fa-xl" style="color:#ffffff;"></i></button></a>
         <a href="{% url 'index' %}" title="Esplora nuovi post"><button><i class="fa-solid fa-compass fa-2xl" style="color: #ffffff;"></i></button></a>
-        <a href="" title="Crea un post"><button><i class="fa-solid fa-square-plus fa-2xl" style="color:#ffffff;"></i></button></a>
+        <a href="{% url 'create' %}" title="Crea un post"><button><i class="fa-solid fa-square-plus fa-2xl" style="color:#ffffff;"></i></button></a>
       </div>
       <div class="bottom-bar">
-        <a href="{% url 'impostazioni' %}" title="Impostazioni"><button><i class="fa-solid fa-gear fa-2xl" style="color: #ffffff;"></i></button></a>
+        <a href="{% url 'settings' %}" title="Impostazioni"><button><i class="fa-solid fa-gear fa-2xl" style="color: #ffffff;"></i></button></a>
         <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><button><img src="{{user_profile.img_profilo.url}}" alt="" class="img-profilo-1" id="img-profilo-1"></button></a>
       </div>
     </div>
