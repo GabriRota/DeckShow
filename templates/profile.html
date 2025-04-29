@@ -4,7 +4,8 @@
 {% block title %}Esplora - DeckShow{% endblock %}
 {% block extra_css %}
 <link href="{% static 'css/profile.css' %}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css"> <!--Libreria delle bandiere-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
+<!--Libreria delle bandiere-->
 {% endblock %}
 {% block content %}
 <div class="profile-info">
@@ -26,39 +27,36 @@
 </div>
 <div class="container-padre">
   <div class="grid-container">
+    {% for post in posts %}
     <div class="inserzione">
       <div class="immagini">
         <div class="img-wrapper">
+          <img src="{{ post.image_front.url}}" alt="" class="img-carta">
         </div>
         <div class="img-wrapper">
+          <img src="{{ post.image_back.url}}" alt="" class="img-carta">
         </div>
       </div>
 
       <div class="contenuto-post">
-        <p class="titolo">Titolo del post</p>
-        <p class="autore">Autore del post</p>
-        <p class="descrizione">Descrizione breve del contenuto del post</p>
-        <p class="descrizione">Altra informazione utile</p>
-        <p class="descrizione">Ancora un'altra riga descrittiva</p>
-      </div>
+        <p class="titolo">{{ post.title }}</p>
+        <p class="autore">{{ post.user }}</p>
+        <p class="descrizione">{{ post.description }}</p>
+        <div class="condizioni">{{ post.conditions }}</div> <!-- Qui mancava una chiusura di div -->
 
-      <div class="bottom-post">
-        <div class="simboli">
-          <i class="fa-regular fa-heart"></i>
-          <i class="fa-regular fa-clipboard"></i>
+        <div class="bottom-post">
+          <div class="simboli">
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-regular fa-clipboard"></i>
+            {% if post.link %}
+            <a href="{{ post.link }}"><i class="fa-solid fa-store" style="color: #004196;"></i></a>
+            {% endif %}
+          </div>
+          <div class="data">10 Aprile 2025</div>
         </div>
-        <div class="data">10 Aprile 2025</div>
       </div>
     </div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
+  {% endfor %}
   </div>
   <div class="sidebar">
     <div class="radio">
@@ -117,4 +115,5 @@
       <button>Unfollow</button>
     </div>
   </div>
-  {% endblock %}
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, Post
 from django_countries import countries
 
 
@@ -63,7 +63,9 @@ def signup(request):
 def user_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
     user_profile = Profile.objects.get(user=user)
-    return render(request, 'profile.html', {'user': user, 'user_profile': user_profile})
+    posts = Post.objects.filter(user=user.username).order_by('-date_time')
+    return render(request, 'profile.html',
+                  {'user': user, 'user_profile': user_profile, 'posts':posts,})
 
 @login_required(login_url='login')
 def logout(request):
@@ -93,8 +95,24 @@ def settings(request):
         'countries': list(countries)
     })
 
+@login_required(login_url='login')
 def create(request):
-    user_object = request.user
+    user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    return render(request, 'create.html', {'user_profile': user_profile})
+
+    if request.method == 'POST':
+        user = request.user.username
+        title = request.POST['title']
+        image_front = request.FILES.get('img_front')
+        image_back =  request.FILES.get('img_back')
+        description = request.POST.get('description', '').strip() or ''
+        conditions = request.POST['conditions']
+        link = request.POST.get('link', '').strip() or None
+
+        new_post = Post.objects.create(user=user, image_front=image_front, title=title, image_back=image_back, description=description, conditions=conditions, link=link)
+        new_post.save()
+
+        return redirect('user_profile', user_id=user_object.id)
+    else:
+        return render(request, 'create.html', {'user_profile': user_profile})
 
