@@ -1,5 +1,19 @@
+h2{
+    position: fixed;
+    top: 70px;
+    left: 70px;
+    right: 0;
+    padding: 1em;
+    margin: 0;
+    color: rgb(0, 65, 150);
+    background-color: white;
+    z-index: 999;
+    height: 72px;
+    box-sizing: border-box;
+}
+
 .filtro {
-    margin: 0 1em 0em 1em;
+    margin: 56px 1em 0em 1em;
     height: fit-content;
     background: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255));
     padding: 1em 2em;
@@ -33,11 +47,6 @@
     border-radius: 15px;
     padding-left: 1em;
     border: none;
-    color: rgb(0, 65, 150);
-}
-
-h2{
-    padding: 0 1.5em;
     color: rgb(0, 65, 150);
 }
 
