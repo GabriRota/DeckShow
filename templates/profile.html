@@ -39,24 +39,34 @@
       </div>
 
       <div class="contenuto-post">
-        <p class="titolo">{{ post.title }}</p>
-        <p class="autore">{{ post.user }}</p>
-        <p class="descrizione">{{ post.description }}</p>
-        <div class="condizioni">{{ post.conditions }}</div> <!-- Qui mancava una chiusura di div -->
+        <div class="header-post">
+          <img src="{{ user_profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo">
+          <div class="info-post">
+            <div class="prima-riga">
+              <p class="titolo">{{ post.title }}</p>
+              <div class="condizioni">{{ post.conditions }}</div>
+            </div>
 
+            <div class="seconda-riga">
+              <p class="autore">{{ post.user }}</p>
+            </div>
+
+            <p class="descrizione">{{ post.description }}</p>
+          </div>
+        </div>
         <div class="bottom-post">
           <div class="simboli">
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-regular fa-clipboard"></i>
+            <i class="fa-regular fa-heart fa-lg" style="color: rgb(0, 0, 0);"></i>
+            <i class="fa-regular fa-clipboard fa-lg" style="color: rgb(0, 0, 0);"></i>
             {% if post.link %}
-            <a href="{{ post.link }}"><i class="fa-solid fa-store" style="color: #004196;"></i></a>
+            <a href="{{ post.link }}"><i class="fa-solid fa-store fa-lg" style="color: #004196;"></i></a>
             {% endif %}
           </div>
           <div class="data">10 Aprile 2025</div>
         </div>
       </div>
     </div>
-  {% endfor %}
+    {% endfor %}
   </div>
   <div class="sidebar">
     <div class="radio">
