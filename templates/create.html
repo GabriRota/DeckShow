@@ -27,6 +27,9 @@
                     <label for="img_front" class="upload-placeholder">
                         <i class="fa-solid fa-plus fa-2xl" style="color: white;"></i>
                     </label>
+                    <label for="img_front" style="display: none;" id="label_preview_front">
+                        <img id="preview_front" class="preview_img">
+                    </label>
                     <input type="file" name="img_front" id="img_front" style="display: none;" accept="image/*" required>
                 </div>
 
@@ -36,15 +39,20 @@
                     <label for="img_back" class="upload-placeholder">
                         <i class="fa-solid fa-plus fa-2xl" style="color: white;"></i>
                     </label>
+                    <label for="img_back" style="display: none;" id="label_preview_back">
+                        <img id="preview_back" class="preview_img">
+                    </label>
                     <input type="file" name="img_back" id="img_back" style="display: none;" accept="image/*" required>
                 </div>
             </div>
 
             <label for="title">Titolo</label>
-            <input type="text" name="title" id="title" placeholder="Inserisci il titolo {es: Pikachu 58/102 base set English near mint}" required>
+            <input type="text" name="title" id="title"
+                placeholder="Inserisci il titolo {es: Pikachu 58/102 base set English near mint}" required>
 
             <label for="desxription">Descrizione</label>
-            <textarea name="description" id="description" rows="3" placeholder="Inserisci la descrizione {es: la carta ha alcune imperfezioni sugli angoli} "></textarea>
+            <textarea name="description" id="description" rows="3"
+                placeholder="Inserisci la descrizione {es: la carta ha alcune imperfezioni sugli angoli} "></textarea>
 
             <label for="conditions">Condizioni</label>
             <select name="conditions" id="conditions" required>
@@ -66,7 +74,28 @@
 </body>
 
 <script>
+    function handleImagePreview(inputId, previewId, labelPreviewId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const labelPreview = document.getElementById(labelPreviewId);
 
+        input.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            const container = event.target.closest(".image-upload");
+            const plusIcon = container.querySelector(".upload-placeholder");
+
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.onload = () => URL.revokeObjectURL(preview.src);
+
+                plusIcon.style.display = "none";           // nasconde il "+"
+                labelPreview.style.display = "inline-block"; // mostra l'immagine cliccabile
+            }
+        });
+    }
+
+    handleImagePreview("img_front", "preview_front", "label_preview_front");
+    handleImagePreview("img_back", "preview_back", "label_preview_back");
 </script>
 
 </html>
