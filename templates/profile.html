@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}Esplora - DeckShow{% endblock %}
 {% block extra_css %}
@@ -44,7 +45,7 @@
           <div class="info-post">
             <div class="prima-riga">
               <p class="titolo">{{ post.title }}</p>
-              <div class="condizioni">{{ post.conditions }}</div>
+              <div class="condizioni">{{ post.conditions|condition_emoji|safe}}  {{ post.conditions }}</div>
             </div>
 
             <div class="seconda-riga">
@@ -59,7 +60,9 @@
             <i class="fa-regular fa-heart fa-lg" style="color: rgb(0, 0, 0);"></i>
             <i class="fa-regular fa-clipboard fa-lg" style="color: rgb(0, 0, 0);"></i>
             {% if post.link %}
-            <a href="{{ post.link }}"><i class="fa-solid fa-store fa-lg" style="color: #004196;"></i></a>
+            <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-store fa-lg" style="color: #004196;"></i>
+            </a>
             {% endif %}
           </div>
           <div class="data">10 Aprile 2025</div>

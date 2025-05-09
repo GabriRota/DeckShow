@@ -85,7 +85,6 @@ body {
 .immagini {
     display: flex;
     width: 100%;
-    background-color: red;
     margin-bottom: 1em;
 }
 
@@ -137,21 +136,30 @@ body {
 
 .prima-riga {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+    min-width: 0;
 }
 
 .titolo {
     font-weight: 700;
     font-size: 16px;
     margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .condizioni {
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.autore {
+.autore,
+.descrizione {
     font-size: 14px;
     color: #606060;
     margin: 0;
@@ -159,6 +167,7 @@ body {
 
 .descrizione {
     margin: 0;
+    color: black;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
@@ -266,8 +275,8 @@ input[type="radio"]:checked+label {
     font-weight: 600;
 }
 
-/* Allarga il contenitore centrale quando non c’è la sidebar */
-@media screen and (max-width: 950px) {
+
+@media screen and (max-width: 1200px) {
     .profile-info {
         height: 10em;
     }

@@ -61,6 +61,7 @@ input{
     background-color: transparent;
     font-size: 14px;
     color: rgb(110, 110, 110);
+    cursor: text;
 }
 
 span{

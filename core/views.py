@@ -115,4 +115,6 @@ def create(request):
         return redirect('user_profile', user_id=user_object.id)
     else:
         return render(request, 'create.html', {'user_profile': user_profile})
+    
+
 
