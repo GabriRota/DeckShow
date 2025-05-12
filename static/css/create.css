@@ -111,6 +111,10 @@ form select{
     border-radius: 5px;
     padding: 0 1em;
     box-sizing: border-box;
+    cursor: text;
+}
+
+form select{
     cursor: pointer;
 }
 
@@ -122,7 +126,7 @@ form textarea{
     margin-bottom: 20px;
     align-items: center;
     border-radius: 5px;
-    padding: 0 1em;
+    padding: 0.5em 1em;
     box-sizing: border-box;
 }
 

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica</title>
+    <link rel="stylesheet" href="{% static 'css/create.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <a href="{% url 'index' %}" class="home-button"><i title="Esplora" class="fa-solid fa-house fa-xl"
+            style="color: #ffffff;"></i></a>
+    <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><img src="{{user_profile.img_profilo.url}}"
+            class="img-profile" alt="" id="img-profile"></a>
+    <div class="container">
+        <h1>Modifica Post <span class="username">@{{user.username}}</span></h1>
+        <form action="{% url 'edit_post' post.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="image-row">
+                <!-- Fronte carta -->
+                <div class="image-upload">
+                    <label for="img_front" class="label-img">Fronte carta</label>
+                    <label for="img_front" style="display: none;" id="label_preview_front">
+                        <img id="preview_front" class="preview_img" src="{{ post.image_front.url }}">
+                    </label>
+                    <input type="file" name="img_front" id="img_front" style="display: none;" accept="image/*">
+                </div>
+
+                <!-- Retro carta -->
+                <div class="image-upload">
+                    <label for="img_back" class="label-img">Retro carta</label>
+                <label for="img_back" style="display: none;" id="label_preview_back">
+                    <img id="preview_back" class="preview_img" src="{{ post.image_back.url }}">
+                </label>
+                <input type="file" name="img_back" id="img_back" style="display: none;" accept="image/*">
+</div>
+            </div>
+
+            <label for="title">Titolo</label>
+            <input type="text" name="title" id="title" value="{{post.title}}" required>
+
+            <label for="description">Descrizione</label>
+            <textarea name="description" id="description" rows="3">{{ post.description }}</textarea>
+
+            <label for="conditions">Condizioni</label>
+            <select name="conditions" id="conditions" required>
+                <option value="Mint" {% if post.conditions == "Mint" %}selected{% endif %}>Mint</option>
+                <option value="Near mint" {% if post.conditions == "Near mint" %}selected{% endif %}>Near mint</option>
+                <option value="Excellent" {% if post.conditions == "Excellent" %}selected{% endif %}>Excellent</option>
+                <option value="Good" {% if post.conditions == "Good" %}selected{% endif %}>Good</option>
+                <option value="Light played" {% if post.conditions == "Light played" %}selected{% endif %}>Light played</option>
+                <option value="Played" {% if post.conditions == "Played" %}selected{% endif %}>Played</option>
+                <option value="Poor" {% if post.conditions == "Poor" %}selected{% endif %}>Poor</option>
+            </select>
+
+
+            <label for="link">Link di vendita</label>
+            <input type="url" name="link" id="link" value="{{post.link}}">
+
+            <button class="salva-button" type="submit">Salva le modifiche</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    function handleImagePreview(inputId, previewId, labelPreviewId, existingImageUrl) {
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    const labelPreview = document.getElementById(labelPreviewId);
+
+    if (existingImageUrl) {
+        preview.src = existingImageUrl;
+        labelPreview.style.display = "inline-block";
+    }
+
+    input.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.onload = () => URL.revokeObjectURL(preview.src);
+            labelPreview.style.display = "inline-block"; 
+        }
+    });
+}
+
+handleImagePreview("img_front", "preview_front", "label_preview_front", "{{ post.image_front.url }}");
+handleImagePreview("img_back", "preview_back", "label_preview_back", "{{ post.image_back.url }}");
+
+</script>
+
+</html>

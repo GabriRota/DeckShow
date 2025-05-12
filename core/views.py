@@ -107,7 +107,7 @@ def create(request):
         image_back =  request.FILES.get('img_back')
         description = request.POST.get('description', '').strip() or ''
         conditions = request.POST['conditions']
-        link = request.POST.get('link', '').strip() or None
+        link = request.POST.get('link', '').strip() or ''
 
         new_post = Post.objects.create(user=user, image_front=image_front, title=title, image_back=image_back, description=description, conditions=conditions, link=link)
         new_post.save()
@@ -115,6 +115,33 @@ def create(request):
         return redirect('user_profile', user_id=user_object.id)
     else:
         return render(request, 'create.html', {'user_profile': user_profile})
+    
+def edit_post(request, post_id):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    post = get_object_or_404(Post, id=post_id)
+
+    if post.user != request.user.username:
+        return redirect('index')
+    
+    if request.method == 'POST':
+        post.title = request.POST.get('title')
+        post.description = request.POST.get('description')
+        post.conditions = request.POST.get('conditions')
+        post.link = request.POST.get('link', '')
+    
+        if 'image_front' in request.FILES:
+            post.image_front = request.FILES['image_front']
+        if 'image_back' in request.FILES:
+            post.image_back = request.FILES['image_back']
+
+        post.save()
+        return redirect('user_profile', user_id=user_object.id)
+
+    return render(request, 'edit.html', {'post': post, 'user_profile' : user_profile} )
+
+
+
     
 
 
