@@ -12,50 +12,12 @@ h2{
     box-sizing: border-box;
 }
 
-.filtro {
-    margin: 56px 1em 0em 1em;
-    height: fit-content;
-    background: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255));
-    padding: 1em 2em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.filtro button {
-    background-color: transparent;
-    border: none;
-    font-size: 18px;
-    color: white;
-}
-
-.filtro p {
-    display: inline-block;
-    padding-left: 0.5em;
-    margin: 0px;
-}
-
-.ordinamento {
-    color: white;
-    font-size: 18px;
-}
-
-.ordinamento select {
-    height: 30px;
-    width: 130px;
-    margin-left: 0.5em;
-    border-radius: 15px;
-    padding-left: 1em;
-    border: none;
-    color: rgb(0, 65, 150);
-}
-
 .layout {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    margin: 2em auto;
+    margin: 3em auto;
     max-width: 1600px;
     padding: 0 2em;
     box-sizing: border-box;

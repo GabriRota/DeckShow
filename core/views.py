@@ -12,7 +12,9 @@ def index(request):
     if request.user.is_authenticated:
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
-    return render(request, 'index.html', {'user_profile': user_profile})
+
+    posts = Post.objects.all().order_by('-date_time')
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts': posts})
 
 def login(request):
     if request.method == 'POST':
@@ -115,7 +117,8 @@ def create(request):
         return redirect('user_profile', user_id=user_object.id)
     else:
         return render(request, 'create.html', {'user_profile': user_profile})
-    
+
+@login_required(login_url='login')   
 def edit_post(request, post_id):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
@@ -140,8 +143,13 @@ def edit_post(request, post_id):
 
     return render(request, 'edit.html', {'post': post, 'user_profile' : user_profile} )
 
-
-
+@login_required(login_url='login')
+def delete_post(request, post_id):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    post = get_object_or_404(Post, id=post_id)
+    if post.user != request.user.username:
+        return redirect('index')
     
-
-
+    post.delete()
+    return redirect ('user_profile', user_id=user_object.id)

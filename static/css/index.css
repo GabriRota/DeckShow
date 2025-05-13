@@ -9,15 +9,16 @@
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    z-index: 1000;
 }
 
-h2{
+h2 {
     padding-right: 1.5em;
     margin: 0;
-    color:  rgb(0, 65, 150);
+    color: rgb(0, 65, 150);
 }
 
-.ricerca{
+.ricerca {
     flex: 1;
     width: 100%;
     max-width: 800px;
@@ -31,18 +32,17 @@ h2{
     z-index: 999;
 }
 
-.barraRicerca{
+.barraRicerca {
     flex: 1;
     border: none;
-    color: grey;
 }
 
 .barraRicerca:focus {
-    outline: none;  
-    box-shadow: none; 
+    outline: none;
+    box-shadow: none;
 }
 
-.ricerca button{
+.ricerca button {
     background-color: rgb(0, 110, 255);
     width: 39px;
     height: 39px;
@@ -52,35 +52,38 @@ h2{
     box-sizing: border-box;
 }
 
-.filtro{ 
+.filtro {
     margin: 56px 1em 0em 1em;
-    height:fit-content;
-    background: linear-gradient(90deg,rgb(0, 65, 150), rgb(0, 110, 255));
+    height: fit-content;
+    background: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255));
     padding: 1em 2em;
+    color: white;
+}
+
+.filtro-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.filtro button{
+.estendi-filtri {
     background-color: transparent;
     border: none;
     font-size: 18px;
     color: white;
 }
 
-.filtro p{
+.filtro p {
     display: inline-block;
     padding-left: 0.5em;
     margin: 0px;
 }
 
-.ordinamento{
-    color: white;
+.ordinamento {
     font-size: 18px;
 }
 
-.ordinamento select{
+.ordinamento select {
     height: 30px;
     width: 130px;
     margin-left: 0.5em;
@@ -90,91 +93,274 @@ h2{
     color: rgb(0, 65, 150);
 }
 
-.grid-container{
+.layout-filtri {
+    height: auto;
+    display: block;
+    padding-top: 1em;
+}
+
+.layout-filtri label {
+    margin-right: 0.5em;
+    white-space: nowrap;
+}
+
+.layout-filtri input {
+    width: 80%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 0 0 0.5em;
+}
+
+.layout-filtri select {
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 1em;
+    color: rgb(0, 65, 150);
+}
+
+.prima-riga {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.seconda-riga {
+    display: flex;
+}
+
+.input-1,
+.input-2 {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.input-3 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.applica-filtri {
+    color: rgb(0, 65, 150);
+    height: 30px;
+    background-color: white;
+    border: none;
+    padding: 0 2em;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.grid-container {
     margin: 2em 1em;
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(auto-fit, 432px);
     gap: 2em;
     justify-content: center;
 }
 
-.inserzione{
+.inserzione {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 480px;
-    background-color: rgb(156, 156, 156);
-    padding-bottom: 1em;
 }
 
 .immagini {
     display: flex;
     width: 100%;
-    background-color: red;
     margin-bottom: 1em;
 }
 
-.img-wrapper{
+.img-carta {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.img-wrapper {
     aspect-ratio: 3/4;
     flex: 1;
     overflow: hidden;
-    background-color: aquamarine;
 }
 
-.contenuto-post p {
-    margin: 0.5em 0 0 0;
-    padding: 0 1em;
+.contenuto-post {
+    position: relative;
+    padding-bottom: 4em;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-post {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.img-profilo-post {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    padding: 0 0.5em;
+}
+
+.info-post {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    padding-right: 0.5em;
+}
+
+.prima-riga {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+    min-width: 0;
+}
+
+.titolo {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.condizioni {
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.autore,
+.descrizione {
+    font-size: 14px;
+    color: #606060;
+    margin: 0;
+}
+
+.descrizione {
+    margin: 0;
+    color: black;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    width: 100%;
+    max-width: 100%;
 }
 
 .bottom-post {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 0 0.5em;
+    border-top: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1em;
-    padding: 1em 1em 0 1em;
-    border-top: 1px solid #ccc;
+    background: white;
 }
 
-.simboli i {
+.simboli {
+    display: flex;
+    align-items: center;
+}
+
+.simboli>i {
     margin-right: 1em;
+    color: black;
+}
+
+.simboli a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 65, 150);
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+}
+
+.simboli a i {
     color: white;
 }
 
 .data {
     font-size: 0.9em;
-    color: white;
+    color: black;
+}
+
+@media screen and (max-width: 996px) {
+
+    .prima-riga,
+    .seconda-riga {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1em;
+    }
+
+    .input-1,
+    .input-2,
+    .input-3 {
+        width: 100%;
+    }
+
+    .layout-filtri input {
+        width: 100%;
+    }
+
+    .applica-filtri {
+        width: fit-content;
+    }
 }
 
 @media screen and (max-width: 600px) {
 
-    .container-1{
+    .container-1 {
         left: 0px;
     }
 
-    .esplora-text{
+    .esplora-text {
         display: none;
     }
 
-    .filtro{
+    .filtro {
         padding: 1em;
         margin: 56px 0em;
     }
 
-    .filtro p{
+    .filtro p {
         display: none;
     }
 
-    .grid-container{
+    .grid-container {
         margin: 0;
         grid-template-columns: 1fr;
         gap: 2em;
     }
 
-    .inserzione{
+    .inserzione {
         width: 100vW;
         height: auto;
     }
+    .layout-filtri select {
+        width: 100%;
+    }
 
-    
+
 }
-
-
-

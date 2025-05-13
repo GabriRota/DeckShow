@@ -6,7 +6,7 @@
 {% block extra_css %}
 <link href="{% static 'css/profile.css' %}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
-<!--Libreria delle bandiere-->
+
 {% endblock %}
 {% block content %}
 <div class="profile-info">
@@ -34,8 +34,8 @@
         <a class="edit" href="{% url 'edit_post' post.id %}">
           <i class="fa-solid fa-pen fa-lg" style="color: #ffffff;"></i>
         </a>
-        <a class="delete" href="" >
-          <i class="fa-solid fa-trash fa-lg" style="color: #ffffff;"></i>
+        <a class="delete" href="{% url 'delete_post' post.id %}" onclick="return confirm('Sei sicuro di voler cancellare questo post?');" title="Elimina">
+          <i class="fa-solid fa-trash" style="color: white;"></i>
         </a>
       </div>
       <div class="immagini">
