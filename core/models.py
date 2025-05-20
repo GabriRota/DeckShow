@@ -6,11 +6,11 @@ from datetime import datetime
 User = get_user_model()
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     id_user = models.PositiveIntegerField()
     name = models.CharField(max_length=30, blank=True)
     surname = models.CharField(max_length=30, blank=True)
-    img_profilo = models.ImageField(upload_to = 'img_profilo', default = 'img_profilo_default.jpg')
+    img_profilo = models.ImageField(upload_to='img_profilo', default='img_profilo_default.jpg')
     nationality = models.CharField(max_length=2, blank=True, help_text="Codice ISO della nazione (es. IT, US, FR)")
 
     def __str__(self):
@@ -27,7 +27,7 @@ class Post(models.Model):
         ('Poor', 'Poor'),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=80)
     image_front = models.ImageField(upload_to='img_post')
     image_back = models.ImageField(upload_to='img_post')
@@ -39,5 +39,4 @@ class Post(models.Model):
     link = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return self.user
-
+        return f"{self.user.username} - {self.title}"

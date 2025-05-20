@@ -13,7 +13,7 @@ def index(request):
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
 
-    posts = Post.objects.all()
+    posts = Post.objects.select_related('user', 'user__profile').all()
 
     titolo = request.POST.get('titolo', '').strip()
     utente = request.POST.get('proprietario', '').strip()
@@ -23,7 +23,7 @@ def index(request):
     if titolo: 
         posts = posts.filter(title__icontains = titolo)
     if utente:
-        posts = posts.filter(user__icontains = utente)
+        posts = posts.filter(user__username__icontains=utente)
     if condizioni:
         posts = posts.filter(conditions = condizioni)
 
@@ -97,7 +97,7 @@ def signup(request):
 def user_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
     user_profile = Profile.objects.get(user=user)
-    posts = Post.objects.filter(user=user.username).order_by('-date_time')
+    posts = Post.objects.filter(user=user).order_by('-date_time')
     return render(request, 'profile.html',
                   {'user': user, 'user_profile': user_profile, 'posts':posts,})
 
@@ -135,7 +135,7 @@ def create(request):
     user_profile = Profile.objects.get(user=user_object)
 
     if request.method == 'POST':
-        user = request.user.username
+        user = request.user
         title = request.POST['title']
         image_front = request.FILES.get('img_front')
         image_back =  request.FILES.get('img_back')
@@ -152,11 +152,11 @@ def create(request):
 
 @login_required(login_url='login')   
 def edit_post(request, post_id):
-    user_object = User.objects.get(username=request.user.username)
+    user_object = request.user
     user_profile = Profile.objects.get(user=user_object)
     post = get_object_or_404(Post, id=post_id)
 
-    if post.user != request.user.username:
+    if post.user != user_object:
         return redirect('index')
     
     if request.method == 'POST':
@@ -175,12 +175,14 @@ def edit_post(request, post_id):
 
     return render(request, 'edit.html', {'post': post, 'user_profile' : user_profile} )
 
+
 @login_required(login_url='login')
 def delete_post(request, post_id):
-    user_object = User.objects.get(username=request.user.username)
+    user_object = request.user
     user_profile = Profile.objects.get(user=user_object)
     post = get_object_or_404(Post, id=post_id)
-    if post.user != request.user.username:
+    
+    if post.user != user_object:
         return redirect('index')
     
     post.delete()
