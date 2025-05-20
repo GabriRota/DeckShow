@@ -95,8 +95,12 @@ h2 {
 
 .layout-filtri {
     height: auto;
-    display: block;
+    display: none;
     padding-top: 1em;
+}
+
+.layout-filtri.show {
+    display: block;
 }
 
 .layout-filtri label {
@@ -140,6 +144,21 @@ h2 {
     display: flex;
     align-items: center;
     flex: 1;
+}
+
+.bottoni-filtri{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.reset-filtri{
+    background-color: red;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
 
 .applica-filtri {

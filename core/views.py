@@ -13,8 +13,40 @@ def index(request):
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
 
-    posts = Post.objects.all().order_by('-date_time')
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts': posts})
+    posts = Post.objects.all()
+
+    titolo = request.POST.get('titolo', '').strip()
+    utente = request.POST.get('proprietario', '').strip()
+    condizioni = request.POST.get('condizioni', '')
+    ordinamento = request.POST.get('ordinamento', 'data_desc')
+
+    if titolo: 
+        posts = posts.filter(title__icontains = titolo)
+    if utente:
+        posts = posts.filter(user__icontains = utente)
+    if condizioni:
+        posts = posts.filter(conditions = condizioni)
+
+    if ordinamento == 'data_asc':
+        posts = posts.order_by('date_time')
+    elif ordinamento == 'data_desc':
+        posts = posts.order_by('-date_time')
+    elif ordinamento == 'like_desc':
+        posts = posts.order_by('-n_of_like')
+    elif ordinamento == 'wishlist_desc':
+        posts = posts.order_by('-n_of_wishlist')
+
+    contenuto = {
+        'user_profile': user_profile,
+        'posts' : posts,
+        'filter' : {
+            'titolo' : titolo,
+            'proprietario': utente,
+            'condizioni': condizioni,
+            'ordinamento' : ordinamento
+        }
+    }
+    return render(request, 'index.html', contenuto)
 
 def login(request):
     if request.method == 'POST':

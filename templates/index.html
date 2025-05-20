@@ -19,55 +19,59 @@
   </div>
   <div class="right"></div>
 </div>
-
-<div class="filtro">
-  <div class="filtro-header">
-    <button class="estendi-filtri" type="button" data-bs-toggle="collapse" data-bs-target="#filter_form" aria-controls="navbarColor01"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fa-solid fa-filter" style="color: #ffffff;"></i>
-      <p>Filtri di ricerca</p><i class="fa-solid fa-caret-down" style="padding-left: 0.5em;"></i>
-    </button>
-    <div class="ordinamento">
-      <label for="sort">Ordina per: </label>
-      <select id="sort" name="sort" class="form-control">
-        <option value="data">Più recente</option>
-        <option value="data">Meno recente</option>
-        <option value="prezzo">Prezzo</option>
+<form action="" method="POST" id="filterForm">
+  <div class="filtro">
+    <div class="filtro-header">
+      <button class="estendi-filtri" type="button" data-bs-toggle="collapse" data-bs-target="#filter_form"
+        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-filter" style="color: #ffffff;"></i>
+        <p>Filtri di ricerca</p><i class="fa-solid fa-caret-down" style="padding-left: 0.5em;"></i>
+      </button>
+      <div class="ordinamento">
+        <label for="ordinamento">Ordina per: </label>
+        <select id="ordinamento" name="ordinamento" class="form-control">
+        <option value="data_desc" {% if request.POST.ordinamento == "data_desc" %}selected{% endif %}>Più recente</option>
+        <option value="data_asc" {% if request.POST.ordinamento == "data_asc" %}selected{% endif %}>Meno recente</option>
+        <option value="like_desc" {% if request.POST.ordinamento == "like_desc" %}selected{% endif %}>Like</option>
+        <option value="wishlist_desc" {% if request.POST.ordinamento == "wishlist_desc" %}selected{% endif %}>Wishlist</option>
       </select>
+      </div>
     </div>
-  </div>
-  <div class="layout-filtri">
-    <form action="" method="POST">
+    <div class="layout-filtri{% if request.POST %} show{% endif %}">
       {% csrf_token %}
       <div class="prima-riga">
         <div class="input-1">
           <label for="titolo">Parola chiave:</label>
-          <input type="text" name="titolo" id="titolo">
+          <input type="text" name="titolo" id="titolo" value="{{ request.POST.titolo}}">
         </div>
         <div class="input-2">
           <label for="proprietario">Proprietario: </label>
-          <input type="text" name="proprietario" id="proprietario">
+          <input type="text" name="proprietario" id="proprietario" value="{{ request.POST.proprietario}}">
         </div>
       </div>
       <div class="seconda-riga">
         <div class="input-3">
           <label for="condizioni">Condizioni: </label>
           <select name="condizioni" id="condizioni">
-            <option value="" disabled selected hidden>Seleziona una condizione</option>
-            <option value="Mint">Mint</option>
-            <option value="Near mint">Near mint</option>
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Light played">Light played</option>
-            <option value="Played">Played</option>
-            <option value="Poor">Poor</option>
+            <option value="" disabled {% if not filter.condizioni %}selected{% endif %} hidden>Seleziona una condizione</option>
+            <option value="Mint" {% if filter.condizioni == "Mint" %}selected{% endif %}>Mint</option>
+            <option value="Near mint" {% if filter.condizioni == "Near mint" %}selected{% endif %}>Near mint</option>
+            <option value="Excellent" {% if filter.condizioni == "Excellent" %}selected{% endif %}>Excellent</option>
+            <option value="Good" {% if filter.condizioni == "Good" %}selected{% endif %}>Good</option>
+            <option value="Light played" {% if filter.condizioni == "Light played" %}selected{% endif %}>Light played</option>
+            <option value="Played" {% if filter.condizioni == "Played" %}selected{% endif %}>Played</option>
+            <option value="Poor" {% if filter.condizioni == "Poor" %}selected{% endif %}>Poor</option>
           </select>
         </div>
-        <button class="applica-filtri" type="submit">Applica Filtri</button>
+        <div class="bottoni-filtri">
+          <button type="button" class="reset-filtri" onclick="resetFiltri()"><i class="fa-solid fa-trash"
+              style="color: #ffffff;"></i></button>
+          <button class="applica-filtri" type="submit">Applica Filtri</button>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+</form>
 <div class="grid-container">
   {% for post in posts %}
   <div class="inserzione">
@@ -112,5 +116,25 @@
   </div>
   {% endfor %}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.querySelector('.estendi-filtri');
+    const filtri = document.querySelector('.layout-filtri');
+
+    btn.addEventListener('click', function () {
+      filtri.classList.toggle('show');
+    });
+  });
+
+  function resetFiltri() {
+    document.getElementById('titolo').value = '';
+    document.getElementById('proprietario').value = '';
+    document.getElementById('condizioni').value = '';
+    document.getElementById('ordinamento').value = 'data_desc';
+
+    document.getElementById('filterForm').submit();
+  }
+</script>
 
 {% endblock %}
