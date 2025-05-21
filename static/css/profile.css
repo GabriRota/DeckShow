@@ -52,7 +52,7 @@ body {
     position: absolute;
     right: 2em;
     bottom: 0em;
-    height: 14vh;
+    height: 5.5em;
     display: flex;
     align-items: center;
 }
@@ -166,6 +166,7 @@ body {
     align-items: center;
     gap: 0.5em;
     min-width: 0;
+    margin: 0;
 }
 
 .titolo {
