@@ -12,32 +12,47 @@
 <div class="profile-info">
   <div class="banner"></div>
   <div class="profile-data">
-    <img src="{{ user_profile.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
+    <img src="{{ profile_owner.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
     <p class="nome-utente">
-      {% if user_profile.nationality %}
-      <span class="fi fi-{{ user_profile.nationality|lower }}"></span>
+      {% if profile_owner.nationality %}
+      <span class="fi fi-{{ profile_owner.nationality|lower }}"></span>
       {% endif %}
       {{ user.username }}
     </p>
   </div>
   <div class="stats">
-    <p>Post: 22</p>
-    <p>Follower: 33</p>
-    <p>Seguiti: 26</p>
+    <p>Post: {{posts|length}}</p>
+    <p>Follower: {{ n_followers }}</p>
+    <p>Seguiti: {{ n_seguiti }}</p>
+    {% if request.user.id != profile_owner.user.id %}
+    <form method="POST" action="{% url 'follow_function' profile_owner.user.id %}">
+      {% csrf_token %}
+      {% if is_following %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button type="submit" class="unfollow-button">Unfollow</button>
+      {% else %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button type="submit" class="follow-button">Follow</button>
+      {% endif %}
+    </form>
+    {% endif %}
   </div>
 </div>
 <div class="container-padre">
   <div class="grid-container">
     {% for post in posts %}
     <div class="inserzione">
+      {% if request.user == post.user %}
       <div class="azioni">
         <a class="edit" href="{% url 'edit_post' post.id %}">
           <i class="fa-solid fa-pen fa-lg" style="color: #ffffff;"></i>
         </a>
-        <a class="delete" href="{% url 'delete_post' post.id %}" onclick="return confirm('Sei sicuro di voler cancellare questo post?');" title="Elimina">
+        <a class="delete" href="{% url 'delete_post' post.id %}"
+          onclick="return confirm('Sei sicuro di voler cancellare questo post?');" title="Elimina">
           <i class="fa-solid fa-trash" style="color: white;"></i>
         </a>
       </div>
+      {% endif %}
       <div class="immagini">
         <div class="img-wrapper">
           <img src="{{ post.image_front.url}}" alt="" class="img-carta">
@@ -49,7 +64,7 @@
 
       <div class="contenuto-post">
         <div class="header-post">
-          <img src="{{ user_profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo">
+          <img src="{{ profile_owner.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo">
           <div class="info-post">
             <div class="prima-riga">
               <p class="titolo">{{ post.title }}</p>
@@ -86,55 +101,26 @@
       <input type="radio" name="radio" id="opt2">
       <label for="opt2" class="seguiti"><span>Seguiti</span></label>
     </div>
+
+    {% for follower in followers %}
     <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
+      <a href="{% url 'user_profile' follower.user.id %}">
+        <img src="{{ follower.img_profilo.url }}" class="img-profilo" alt="Immagine profilo">
+        <p class="acc-name">{{ follower.user.username }}</p>
       </a>
-      <button>Unfollow</button>
+      {% if request.user != follower.user %}
+      <form method="POST" action="{% url 'follow_function' follower.user.id %}" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        {% if follower in logged_in_profile.seguiti.all %}
+        <button type="submit" class="unfollow-button-2">Unfollow</button>
+        {% else %}
+        <button type="submit" class="follow-button-2">Follow</button>
+        {% endif %}
+      </form>
+      {% endif %}
     </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

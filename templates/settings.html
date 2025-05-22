@@ -21,22 +21,22 @@
             {% csrf_token %}
             <label for="" class="label-img-profilo">Immagine profilo</label>
             <label for="img_profilo" class="image-upload">
-                <img src="{{user_profile.img_profilo.url}}" class="img-profile-preview" alt="" id="img-profile-preview">
+                <img src="{{logged_in_profile.img_profilo.url}}" class="img-profile-preview" alt="" id="img-profile-preview">
                 <span class="edit-icon"><i class="fa-solid fa-pen fa-xl" style="color: #ffffff;"></i></span>
             </label>
             <label for="img_profilo" class="change-image-text"><i class="fa-solid fa-pen fa" style="color: rgb(0,65,150);"></i>Cambia immagine</label>
             <input type="file" name="img_profilo" id="img_profilo" style="display: none;" accept="image/*">
 
             <label for="name">Nome</label>
-            <input type="text" name="name" id="name" value="{{ user_profile.name }}" placeholder="Inserisci il tuo nome">
+            <input type="text" name="name" id="name" value="{{ logged_in_profile.name }}" placeholder="Inserisci il tuo nome">
 
             <label for="surname">Cognome</label>
-            <input type="text" name="surname" id="surname" value="{{ user_profile.surname }}" placeholder="Inserisci il tuo cognome">
+            <input type="text" name="surname" id="surname" value="{{ logged_in_profile.surname }}" placeholder="Inserisci il tuo cognome">
 
             <label for="nationality">Nazionalità</label>
             <select name="nationality" id="nationality">
                 {% for code, country in countries %}
-                    <option value="{{ code }}" {% if user_profile.nationality == code %}selected{% endif %}>{{ country }}</option>
+                    <option value="{{ code }}" {% if logged_in_profile.nationality == code %}selected{% endif %}>{{ country }}</option>
                 {% endfor %}
             </select>
 

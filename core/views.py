@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Post
@@ -8,10 +8,9 @@ from django_countries import countries
 
 
 def index(request):
-    user_profile = None
+    logged_in_profile = None
     if request.user.is_authenticated:
-        user_object = User.objects.get(username=request.user.username)
-        user_profile = Profile.objects.get(user=user_object)
+        logged_in_profile = Profile.objects.get(user=request.user)
 
     posts = Post.objects.select_related('user', 'user__profile').all()
 
@@ -37,7 +36,7 @@ def index(request):
         posts = posts.order_by('-n_of_wishlist')
 
     contenuto = {
-        'user_profile': user_profile,
+        'logged_in_profile': logged_in_profile,
         'posts' : posts,
         'filter' : {
             'titolo' : titolo,
@@ -95,11 +94,27 @@ def signup(request):
         return render(request, 'signup.html')
 
 def user_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    user_profile = Profile.objects.get(user=user)
-    posts = Post.objects.filter(user=user).order_by('-date_time')
-    return render(request, 'profile.html',
-                  {'user': user, 'user_profile': user_profile, 'posts':posts,})
+    profile_owner = get_object_or_404(User, id=user_id)
+    profile_owner_profile = Profile.objects.get(user=profile_owner)
+    posts = Post.objects.filter(user=profile_owner).order_by('-date_time')
+
+    logged_in_profile = None
+    is_following = None
+
+    if request.user.is_authenticated:
+        logged_in_profile = Profile.objects.get(user=request.user)
+        is_following = profile_owner_profile in logged_in_profile.seguiti.all()
+
+    return render(request, 'profile.html', {
+        'user': profile_owner, 
+        'profile_owner': profile_owner_profile, 
+        'posts':posts, 
+        'logged_in_profile': logged_in_profile,
+        'is_following' : is_following,
+        'n_followers' : profile_owner_profile.followers.count(),
+        'n_seguiti' : profile_owner_profile.seguiti.count(),
+        'followers' : profile_owner_profile.followers.all()
+    })
 
 @login_required(login_url='login')
 def logout(request):
@@ -107,56 +122,60 @@ def logout(request):
     return redirect('login')
 
 def perTe(request):
-    user_profile = Profile.objects.get(user=request.user)
-    return render(request, 'perTe.html', {'user_profile': user_profile})
+    logged_in_profile = Profile.objects.get(user=request.user)
+    return render(request, 'perTe.html', {'logged_in_profile': logged_in_profile})
 
 @login_required(login_url='login')
 def settings(request):
-    user_object = request.user
-    user_profile = Profile.objects.get(user=user_object)
+    logged_in_profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
-        user_profile.name = request.POST.get('name', user_profile.name)
-        user_profile.surname = request.POST.get('surname', user_profile.surname)
-        user_profile.nationality = request.POST.get('nationality', user_profile.nationality)
+        logged_in_profile.name = request.POST.get('name', logged_in_profile.name)
+        logged_in_profile.surname = request.POST.get('surname', logged_in_profile.surname)
+        logged_in_profile.nationality = request.POST.get('nationality', logged_in_profile.nationality)
 
         if 'img_profilo' in request.FILES:
-            user_profile.img_profilo = request.FILES['img_profilo']
+            logged_in_profile.img_profilo = request.FILES['img_profilo']
         
-        user_profile.save()
+        logged_in_profile.save()
         return redirect('user_profile', user_id=request.user.id)
     return render(request, 'settings.html', {
-        'user_profile': user_profile,
+        'logged_in_profile': logged_in_profile,
         'countries': list(countries)
     })
 
 @login_required(login_url='login')
 def create(request):
-    user_object = User.objects.get(username=request.user.username)
-    user_profile = Profile.objects.get(user=user_object)
+    logged_in_profile = Profile.objects.get(user=request.user)
 
     if request.method == 'POST':
-        user = request.user
         title = request.POST['title']
         image_front = request.FILES.get('img_front')
-        image_back =  request.FILES.get('img_back')
+        image_back = request.FILES.get('img_back')
         description = request.POST.get('description', '').strip() or ''
         conditions = request.POST['conditions']
         link = request.POST.get('link', '').strip() or ''
 
-        new_post = Post.objects.create(user=user, image_front=image_front, title=title, image_back=image_back, description=description, conditions=conditions, link=link)
-        new_post.save()
+        Post.objects.create(
+            user=request.user,
+            image_front=image_front,
+            title=title,
+            image_back=image_back,
+            description=description,
+            conditions=conditions,
+            link=link
+        )
 
-        return redirect('user_profile', user_id=user_object.id)
-    else:
-        return render(request, 'create.html', {'user_profile': user_profile})
+        return redirect('user_profile', user_id=request.user.id)
+
+    return render(request, 'create.html', {'logged_in_profile': logged_in_profile})
 
 @login_required(login_url='login')   
 def edit_post(request, post_id):
-    user_object = request.user
-    user_profile = Profile.objects.get(user=user_object)
+    logged_in_profile = Profile.objects.get(user=request.user)
     post = get_object_or_404(Post, id=post_id)
 
-    if post.user != user_object:
+    if post.user != request.user:
+        messages.error(request, "Non sei autorizzato a modificare questo post.")
         return redirect('index')
     
     if request.method == 'POST':
@@ -171,19 +190,36 @@ def edit_post(request, post_id):
             post.image_back = request.FILES['image_back']
 
         post.save()
-        return redirect('user_profile', user_id=user_object.id)
+        return redirect('user_profile', user_id=request.user.id)
 
-    return render(request, 'edit.html', {'post': post, 'user_profile' : user_profile} )
+    return render(request, 'edit.html', {'post': post, 'logged_in_profile' : logged_in_profile} )
 
 
 @login_required(login_url='login')
 def delete_post(request, post_id):
-    user_object = request.user
-    user_profile = Profile.objects.get(user=user_object)
+    logged_in_profile = Profile.objects.get(user=request.user)
     post = get_object_or_404(Post, id=post_id)
-    
-    if post.user != user_object:
+
+    if post.user != request.user:
+        messages.error(request, "Non sei autorizzato ad eliminare questo post.")
         return redirect('index')
     
     post.delete()
-    return redirect ('user_profile', user_id=user_object.id)
+    return redirect ('user_profile', user_id=request.user.id)
+
+def follow_function(request, user_id):
+    target_user = get_object_or_404(User, id=user_id)
+    target_profile = target_user.profile
+    logged_in_profile = request.user.profile
+
+    if(target_profile == logged_in_profile):
+        return HttpResponseForbidden("Operazione non consentita: non puoi seguire te stesso.")
+    if target_profile in logged_in_profile.seguiti.all():
+        logged_in_profile.seguiti.remove(target_profile)
+    else:
+        logged_in_profile.seguiti.add(target_profile)
+
+    next = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/'
+    
+    return redirect (next) #ritorna alla pagine dove è arrivata la richiesta
+

@@ -39,7 +39,7 @@
     </div>
     <div class="layout-filtri{% if request.POST %} show{% endif %}">
       {% csrf_token %}
-      <div class="prima-riga">
+      <div class="prima-riga-filtri">
         <div class="input-1">
           <label for="titolo">Parola chiave:</label>
           <input type="text" name="titolo" id="titolo" value="{{ request.POST.titolo}}">
@@ -49,7 +49,7 @@
           <input type="text" name="proprietario" id="proprietario" value="{{ request.POST.proprietario}}">
         </div>
       </div>
-      <div class="seconda-riga">
+      <div class="seconda-riga-filtri">
         <div class="input-3">
           <label for="condizioni">Condizioni: </label>
           <select name="condizioni" id="condizioni">
@@ -86,17 +86,15 @@
 
     <div class="contenuto-post">
       <div class="header-post">
-        <img src="{{ post.user.profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo">
+        <a href="{% url 'user_profile' user_id=post.user.id %}"><img src="{{ post.user.profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo"></a>
         <div class="info-post">
-          <div class="prima-riga">
+          <div class="prima-riga-post">
             <p class="titolo">{{ post.title }}</p>
             <div class="condizioni">{{ post.conditions|condition_emoji|safe}} {{ post.conditions }}</div>
           </div>
-
-          <div class="seconda-riga">
-            <p class="autore">{{ post.user }}</p>
+          <div class="seconda-riga-post">
+            <a href="{% url 'user_profile' user_id=post.user.id %}"><p class="autore">{{ post.user }}</p></a>
           </div>
-
           <p class="descrizione">{{ post.description }}</p>
         </div>
       </div>

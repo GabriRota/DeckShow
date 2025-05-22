@@ -11,6 +11,7 @@ urlpatterns = [
     path('perTe/', views.perTe, name="perTe"),
     path('settings/', views.settings, name='settings'),
     path('create/', views.create, name='create'),
-    path('edit/<uuid:post_id>', views.edit_post, name='edit_post'),
-    path('delete/<uuid:post_id>', views.delete_post, name='delete_post')
+    path('edit/<uuid:post_id>/', views.edit_post, name='edit_post'),
+    path('delete/<uuid:post_id>/', views.delete_post, name='delete_post'),
+    path('follow/<int:user_id>/', views.follow_function, name="follow_function"),
 ]

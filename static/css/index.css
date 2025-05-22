@@ -1,3 +1,7 @@
+a{
+    text-decoration: none;
+}
+
 .container-1 {
     position: fixed;
     top: 70px;
@@ -124,11 +128,13 @@ h2 {
     color: rgb(0, 65, 150);
 }
 
-.prima-riga {
+.prima-riga-filtri {
     display: flex;
+    margin-bottom: 1em;
+    gap: 1em;
 }
 
-.seconda-riga {
+.seconda-riga-filtri {
     display: flex;
 }
 
@@ -239,7 +245,7 @@ h2 {
     padding-right: 0.5em;
 }
 
-.prima-riga {
+.prima-riga-post {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -325,8 +331,8 @@ h2 {
 
 @media screen and (max-width: 996px) {
 
-    .prima-riga,
-    .seconda-riga {
+    .prima-riga-filtri,
+    .seconda-riga-filtri {
         flex-direction: column;
         align-items: flex-end;
         gap: 1em;
