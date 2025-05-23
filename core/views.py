@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Post
@@ -208,6 +208,7 @@ def delete_post(request, post_id):
     post.delete()
     return redirect ('user_profile', user_id=request.user.id)
 
+@login_required(login_url='login')
 def follow_function(request, user_id):
     target_user = get_object_or_404(User, id=user_id)
     target_profile = target_user.profile
@@ -223,4 +224,32 @@ def follow_function(request, user_id):
     next = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/'
     
     return redirect (next) #ritorna alla pagine dove è arrivata la richiesta
+
+@login_required(login_url='login')
+def like_function(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
+        if user in post.liked_by.all():
+            post.liked_by.remove(user)
+            liked = False
+        else:
+            post.liked_by.add(user)
+            liked = True
+        return JsonResponse({'liked': liked})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required(login_url='login')
+def wishlist_function(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
+        if user in post.wishlisted_by.all():
+            post.wishlisted_by.remove(user)
+            in_wishlist = False
+        else:
+            post.wishlisted_by.add(user)
+            in_wishlist = True
+        return JsonResponse({'in_wishlist': in_wishlist})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 

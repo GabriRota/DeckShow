@@ -37,6 +37,8 @@ class Post(models.Model):
     date_time = models.DateTimeField(default=datetime.now)
     n_of_like = models.IntegerField(default=0)
     n_of_wishlist = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(User, related_name='liked', blank=True)
+    wishlisted_by = models.ManyToManyField(User, related_name='wishlisted', blank=True)
     link = models.URLField(blank=True, null=True)
 
     def __str__(self):

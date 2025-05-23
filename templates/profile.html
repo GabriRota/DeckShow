@@ -80,8 +80,20 @@
         </div>
         <div class="bottom-post">
           <div class="simboli">
-            <i class="fa-regular fa-heart fa-lg" style="color: rgb(0, 0, 0);"></i>
-            <i class="fa-regular fa-clipboard fa-lg" style="color: rgb(0, 0, 0);"></i>
+            <button type="button" class="like_button" data-post-id="{{ post.id }}">
+              {% if request.user in post.liked_by.all %}
+              <i class="fa-solid fa-heart fa-xl" style="color: #cd1818;"></i>
+              {% else %}
+              <i class="fa-regular fa-heart fa-xl" style="color: rgb(0, 0, 0);"></i>
+              {% endif %}
+            </button>
+            <button type="button" class="wishlist_button" data-post-id="{{ post.id }}">
+              {% if request.user in post.wishlisted_by.all %}
+              <i class="fa-solid fa-clipboard fa-xl" style="color: rgb(255, 217, 0);"></i>
+              {% else %}
+              <i class="fa-regular fa-clipboard fa-xl" style="color: rgb(0, 0, 0);"></i>
+              {% endif %}
+            </button>
             {% if post.link %}
             <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
               <i class="fa-solid fa-store" style="color:rgb(255, 255, 255);"></i>
@@ -125,35 +137,119 @@
     </div>
 
     <div id="seguiti-list" style="display: none;">
-    {% for seguito in seguiti %}
-    <div class="account">
-      <a href="{% url 'user_profile' seguito.user.id %}">
-        <img src="{{ seguito.img_profilo.url }}" class="img-profilo" alt="Immagine profilo">
-        <p class="acc-name">{{ seguito.user.username }}</p>
-      </a>
-      {% if request.user != seguito.user %}
-      <form method="POST" action="{% url 'follow_function' seguito.user.id %}" style="display: inline;">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.path }}">
-        {% if seguito in logged_in_profile.seguiti.all %}
-        <button type="submit" class="unfollow-button-2">Unfollow</button>
-        {% else %}
-        <button type="submit" class="follow-button-2">Follow</button>
+      {% for seguito in seguiti %}
+      <div class="account">
+        <a href="{% url 'user_profile' seguito.user.id %}">
+          <img src="{{ seguito.img_profilo.url }}" class="img-profilo" alt="Immagine profilo">
+          <p class="acc-name">{{ seguito.user.username }}</p>
+        </a>
+        {% if request.user != seguito.user %}
+        <form method="POST" action="{% url 'follow_function' seguito.user.id %}" style="display: inline;">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          {% if seguito in logged_in_profile.seguiti.all %}
+          <button type="submit" class="unfollow-button-2">Unfollow</button>
+          {% else %}
+          <button type="submit" class="follow-button-2">Follow</button>
+          {% endif %}
+        </form>
         {% endif %}
-      </form>
-      {% endif %}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
+  document.addEventListener('DOMContentLoaded', function () {
     const opt1 = document.getElementById('opt1');
     const opt2 = document.getElementById('opt2');
     const followerList = document.getElementById('follower-list');
-    const seguitiList = document.getElementById('seguiti-list'); 
+    const seguitiList = document.getElementById('seguiti-list');
+
+    opt1.addEventListener('change', function () {
+      if (opt1.checked) {
+        followerList.style.display = 'block';
+        seguitiList.style.display = 'none';
+      }
+    });
+
+    opt2.addEventListener('change', function () {
+      if (opt2.checked) {
+        followerList.style.display = 'none';
+        seguitiList.style.display = 'block';
+      }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Funzione per ottenere il CSRF token
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    // Like
+    document.querySelectorAll('.like_button').forEach(button => {
+      button.addEventListener('click', function () {
+        const postId = this.dataset.postId;
+        const icon = this.querySelector('i');
+
+        fetch(`/like/${postId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        }).then(response => {
+          if (response.ok) {
+            icon.classList.toggle('fa-solid');
+            icon.classList.toggle('fa-regular');
+            icon.style.color = icon.classList.contains('fa-solid') ? '#cd1818' : 'black';
+          }
+        });
+      });
+    });
+
+    // Wishlist
+    document.querySelectorAll('.wishlist_button').forEach(button => {
+      button.addEventListener('click', function () {
+        const postId = this.dataset.postId;
+        const icon = this.querySelector('i');
+
+        fetch(`/wishlist/${postId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        }).then(response => {
+          if (response.ok) {
+            icon.classList.toggle('fa-solid');
+            icon.classList.toggle('fa-regular');
+            icon.style.color = icon.classList.contains('fa-solid') ? 'rgb(255, 217, 0)' : 'black';
+          }
+        });
+      });
+    });
+
+    // Tabs Follower/Seguiti
+    const opt1 = document.getElementById('opt1');
+    const opt2 = document.getElementById('opt2');
+    const followerList = document.getElementById('follower-list');
+    const seguitiList = document.getElementById('seguiti-list');
 
     opt1.addEventListener('change', function () {
       if (opt1.checked) {

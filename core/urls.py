@@ -14,4 +14,6 @@ urlpatterns = [
     path('edit/<uuid:post_id>/', views.edit_post, name='edit_post'),
     path('delete/<uuid:post_id>/', views.delete_post, name='delete_post'),
     path('follow/<int:user_id>/', views.follow_function, name="follow_function"),
+    path('like/<uuid:post_id>/', views.like_function, name="like_function"),
+    path('wishlist/<uuid:post_id>/', views.wishlist_function, name="wishlist_function")
 ]
