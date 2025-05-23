@@ -113,7 +113,8 @@ def user_profile(request, user_id):
         'is_following' : is_following,
         'n_followers' : profile_owner_profile.followers.count(),
         'n_seguiti' : profile_owner_profile.seguiti.count(),
-        'followers' : profile_owner_profile.followers.all()
+        'followers' : profile_owner_profile.followers.all(),
+        'seguiti' : profile_owner_profile.seguiti.all()
     })
 
 @login_required(login_url='login')
