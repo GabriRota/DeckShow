@@ -100,8 +100,20 @@
       </div>
       <div class="bottom-post">
         <div class="simboli">
-          <i class="fa-regular fa-heart fa-lg" style="color: rgb(0, 0, 0);"></i>
-          <i class="fa-regular fa-clipboard fa-lg" style="color: rgb(0, 0, 0);"></i>
+          <button type="button" class="like_button" data-post-id="{{ post.id }}">
+            {% if request.user in post.liked_by.all %}
+            <i class="fa-solid fa-heart fa-xl" style="color: #cd1818;"></i>
+            {% else %}
+            <i class="fa-regular fa-heart fa-xl" style="color: rgb(0, 0, 0);"></i>
+            {% endif %}
+        </button>
+        <button type="button" class="wishlist_button" data-post-id="{{ post.id }}">
+            {% if request.user in post.wishlisted_by.all %}
+            <i class="fa-solid fa-clipboard fa-xl" style="color: rgb(255, 217, 0);"></i>
+            {% else %}
+            <i class="fa-regular fa-clipboard fa-xl" style="color: rgb(0, 0, 0);"></i>
+            {% endif %}
+        </button>
           {% if post.link %}
           <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-store" style="color:rgb(255, 255, 255);"></i>
@@ -115,24 +127,6 @@
   {% endfor %}
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const btn = document.querySelector('.estendi-filtri');
-    const filtri = document.querySelector('.layout-filtri');
-
-    btn.addEventListener('click', function () {
-      filtri.classList.toggle('show');
-    });
-  });
-
-  function resetFiltri() {
-    document.getElementById('titolo').value = '';
-    document.getElementById('proprietario').value = '';
-    document.getElementById('condizioni').value = '';
-    document.getElementById('ordinamento').value = 'data_desc';
-
-    document.getElementById('filterForm').submit();
-  }
-</script>
+<script src="{% static 'js/script.js' %}"></script>
 
 {% endblock %}

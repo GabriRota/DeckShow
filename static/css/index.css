@@ -324,6 +324,16 @@ h2 {
     color: white;
 }
 
+.like_button{
+    background-color: white;
+    border: none;
+}
+
+.wishlist_button{
+    background-color: white;
+    border: none;
+}
+
 .data {
     font-size: 0.9em;
     color: black;
