@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}Esplora - DeckShow{% endblock %}
 {% block extra_css %}
@@ -11,39 +12,59 @@
 <h2><i class="fa-solid fa-user-group" style="color: rgb(0, 65, 150)"></i> Seguiti</h2>
 <div class="layout">
   <div class="grid-container">
+    {% for post in posts %}
     <div class="inserzione">
       <div class="immagini">
         <div class="img-wrapper">
+          <img src="{{ post.image_front.url}}" alt="" class="img-carta">
         </div>
         <div class="img-wrapper">
+          <img src="{{ post.image_back.url}}" alt="" class="img-carta">
         </div>
       </div>
 
       <div class="contenuto-post">
-        <p class="titolo">Titolo del post</p>
-        <p class="autore">Autore del post</p>
-        <p class="descrizione">Descrizione breve del contenuto del post</p>
-        <p class="descrizione">Altra informazione utile</p>
-        <p class="descrizione">Ancora un'altra riga descrittiva</p>
+        <div class="header-post">
+          <a href="{% url 'user_profile' user_id=post.user.id %}"><img src="{{ post.user.profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo"></a>
+          <div class="info-post">
+            <div class="prima-riga">
+              <p class="titolo">{{ post.title }}</p>
+              <div class="condizioni">{{ post.conditions|condition_emoji|safe}} {{ post.conditions }}</div>
+            </div>
+            <div class="seconda-riga">
+              <a href="{% url 'user_profile' user_id=post.user.id %}"><p class="autore">{{ post.user }}</p></a>
+            </div>
+            <p class="descrizione">{{ post.description }}</p>
+          </div>
+        </div>
       </div>
 
       <div class="bottom-post">
         <div class="simboli">
-          <i class="fa-regular fa-heart"></i>
-          <i class="fa-regular fa-clipboard"></i>
+          <button type="button" class="like_button" data-post-id="{{ post.id }}">
+            {% if request.user in post.liked_by.all %}
+            <i class="fa-solid fa-heart fa-xl" style="color: #cd1818;"></i>
+            {% else %}
+            <i class="fa-regular fa-heart fa-xl" style="color: rgb(0, 0, 0);"></i>
+            {% endif %}
+        </button>
+        <button type="button" class="wishlist_button" data-post-id="{{ post.id }}">
+            {% if request.user in post.wishlisted_by.all %}
+            <i class="fa-solid fa-clipboard fa-xl" style="color: rgb(255, 217, 0);"></i>
+            {% else %}
+            <i class="fa-regular fa-clipboard fa-xl" style="color: rgb(0, 0, 0);"></i>
+            {% endif %}
+        </button>
+          {% if post.link %}
+          <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-store" style="color:rgb(255, 255, 255);"></i>
+          </a>
+          {% endif %}
         </div>
-        <div class="data">10 Aprile 2025</div>
+        <div class="data">{{ post.date_time|date:"d F Y" }}</div>
       </div>
     </div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
-    <div class="inserzione"></div>
+    {% endfor %}
   </div>
   <div class="sidebar">
     <div class="consigliati">Consigliati</div>
@@ -99,5 +120,6 @@
   </div>
 </div>
 
+<script src="{% static 'js/script.js' %}"></script>
 
 {% endblock %}

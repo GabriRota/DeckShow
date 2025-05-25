@@ -3,13 +3,19 @@ h2{
     top: 70px;
     left: 70px;
     right: 0;
-    padding: 1em;
+    height: 40px;
+    padding: 16px;
     margin: 0;
     color: rgb(0, 65, 150);
     background-color: white;
     z-index: 999;
-    height: 72px;
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+a{
+    text-decoration: none;
 }
 
 .layout {
@@ -17,7 +23,7 @@ h2{
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    margin: 3em auto;
+    margin: 56px auto;
     max-width: 1600px;
     padding: 0 2em;
     box-sizing: border-box;
@@ -92,10 +98,8 @@ h2{
 
 .inserzione {
     width: 532px;
-    background-color: rgb(156, 156, 156);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: relative;
     padding-bottom: 1em;
     margin: 0;
@@ -105,39 +109,148 @@ h2{
 .immagini {
     display: flex;
     width: 100%;
-    background-color: red;
     margin-bottom: 1em;
 }
 
-.img-wrapper{
+.img-carta {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.img-wrapper {
     aspect-ratio: 3/4;
     flex: 1;
     overflow: hidden;
-    background-color: aquamarine;
 }
 
-.contenuto-post p {
-    margin: 0.5em 0 0 0;
-    padding: 0 1em;
+.contenuto-post {
+    position: relative;
+    padding-bottom: 4em;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-post {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.img-profilo-post {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    padding: 0 0.5em;
+}
+
+.info-post {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    padding-right: 0.5em;
+}
+
+.prima-riga {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+    min-width: 0;
+    margin: 0;
+}
+
+.titolo {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.condizioni {
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.autore,
+.descrizione {
+    font-size: 14px;
+    color: #606060;
+    margin: 0;
+}
+
+.descrizione {
+    margin: 0;
+    color: black;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    width: 100%;
+    max-width: 100%;
 }
 
 .bottom-post {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    margin: 0 0.5em;
+    border-top: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1em;
-    padding: 1em 1em 0 1em;
-    border-top: 1px solid #ccc;
+    background: white;
 }
 
-.simboli i {
+.simboli {
+    display: flex;
+    align-items: center;
+}
+
+.simboli > i {
     margin-right: 1em;
+    color: black;
+}
+
+.simboli a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 65, 150);
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+}
+
+.simboli a i {
     color: white;
+}
+
+.like_button{
+    background-color: white;
+    border: none;
+}
+
+.wishlist_button{
+    background-color: white;
+    border: none;
 }
 
 .data {
     font-size: 0.9em;
-    color: white;
+    color: black;
 }
 
 @media screen and (max-width: 1050px) {
@@ -152,7 +265,13 @@ h2{
 
 @media screen and (max-width: 600px) {
 
+    h2{
+        left: 0;
+        height: auto;
+    }
+
     .layout{
+        margin-top: 44px;
         padding: 0;
     }
 

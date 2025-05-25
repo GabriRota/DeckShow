@@ -124,7 +124,13 @@ def logout(request):
 
 def perTe(request):
     logged_in_profile = Profile.objects.get(user=request.user)
-    return render(request, 'perTe.html', {'logged_in_profile': logged_in_profile})
+    seguiti = logged_in_profile.seguiti.all()
+    posts = Post.objects.select_related('user', 'user__profile').filter(user__profile__in=seguiti).order_by('-date_time')
+
+    return render(request, 'perTe.html', {
+        'logged_in_profile': logged_in_profile,
+        'posts' : posts,
+        })
 
 @login_required(login_url='login')
 def settings(request):
