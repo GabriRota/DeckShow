@@ -13,13 +13,13 @@
     <i class="fa-solid fa-compass fa-xl" style="color: rgb(0, 65, 150)"></i>
     <span class="esplora-text">Esplora</span>
   </h2>
-  <div class="ricerca">
-    <input class="barraRicerca" placeholder="Search...">
+  <form method="get" action="{% url 'index' %}" class="ricerca">
+    <input class="barraRicerca" name="query" placeholder="Search...">
     <button type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
-  </div>
+  </form>
   <div class="right"></div>
 </div>
-<form action="" method="POST" id="filterForm">
+<form action="" method="GET" id="filterForm">
   <div class="filtro">
     <div class="filtro-header">
       <button class="estendi-filtri" type="button" data-bs-toggle="collapse" data-bs-target="#filter_form"
@@ -29,24 +29,24 @@
       </button>
       <div class="ordinamento">
         <label for="ordinamento">Ordina per: </label>
-        <select id="ordinamento" name="ordinamento" class="form-control">
-        <option value="data_desc" {% if request.POST.ordinamento == "data_desc" %}selected{% endif %}>Più recente</option>
-        <option value="data_asc" {% if request.POST.ordinamento == "data_asc" %}selected{% endif %}>Meno recente</option>
-        <option value="like_desc" {% if request.POST.ordinamento == "like_desc" %}selected{% endif %}>Like</option>
-        <option value="wishlist_desc" {% if request.POST.ordinamento == "wishlist_desc" %}selected{% endif %}>Wishlist</option>
-      </select>
+          <select id="ordinamento" name="ordinamento" class="form-control">
+          <option value="data_desc" {% if request.GET.ordinamento == "data_desc" %}selected{% endif %}>Più recente</option>
+          <option value="data_asc" {% if request.GET.ordinamento == "data_asc" %}selected{% endif %}>Meno recente</option>
+          <option value="like_desc" {% if request.GET.ordinamento == "like_desc" %}selected{% endif %}>Like</option>
+          <option value="wishlist_desc" {% if request.GET.ordinamento == "wishlist_desc" %}selected{% endif %}>Wishlist</option>
+        </select>
       </div>
     </div>
-    <div class="layout-filtri{% if request.POST %} show{% endif %}">
+    <div class="layout-filtri collapse {% if filter.titolo or filter.proprietario or filter.condizioni or filter.ordinamento != 'data_desc' %}show{% endif %}" id="filter_form">
       {% csrf_token %}
       <div class="prima-riga-filtri">
         <div class="input-1">
-          <label for="titolo">Parola chiave:</label>
-          <input type="text" name="titolo" id="titolo" value="{{ request.POST.titolo}}">
+          <label for="titolo">Titolo: </label>
+          <input type="text" name="titolo" id="titolo" value="{{ filter.titolo }}">
         </div>
         <div class="input-2">
           <label for="proprietario">Proprietario: </label>
-          <input type="text" name="proprietario" id="proprietario" value="{{ request.POST.proprietario}}">
+          <input type="text" name="proprietario" id="proprietario" value="{{ filter.proprietario }}">
         </div>
       </div>
       <div class="seconda-riga-filtri">

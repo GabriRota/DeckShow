@@ -5,7 +5,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Post
 from django_countries import countries
+from django.db.models import Q, Case, When, Value, IntegerField
+from difflib import SequenceMatcher
 
+
+def similar(a, b):
+    return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 def index(request):
     logged_in_profile = None
@@ -14,38 +19,73 @@ def index(request):
 
     posts = Post.objects.select_related('user', 'user__profile').all()
 
-    titolo = request.POST.get('titolo', '').strip()
-    utente = request.POST.get('proprietario', '').strip()
-    condizioni = request.POST.get('condizioni', '')
-    ordinamento = request.POST.get('ordinamento', 'data_desc')
+    query = request.GET.get('query', '').strip()
+    titolo = request.GET.get('titolo', '').strip()
+    utente = request.GET.get('proprietario', '').strip()
+    condizioni = request.GET.get('condizioni', '')
+    ordinamento = request.GET.get('ordinamento', 'data_desc')
 
-    if titolo: 
-        posts = posts.filter(title__icontains = titolo)
-    if utente:
-        posts = posts.filter(user__username__icontains=utente)
+    # Gestione smart della query: titolo o autore
+    if query:
+        best_title_score = max(similar(query, post.title) for post in posts)
+        best_user_score = max(similar(query, post.user.username) for post in posts)
+        if best_title_score >= best_user_score:
+            titolo = query
+            utente = ''
+        else:
+            utente = query
+            titolo = ''
+
+    # Filtro combinato titolo + utente
+    if titolo or utente:
+        query_filter = Q()
+        if titolo:
+            query_filter |= Q(title__icontains=titolo)
+        if utente:
+            query_filter |= Q(user__username__icontains=utente)
+        posts = posts.filter(query_filter)
+        
+        posts = posts.annotate(
+            relevance=Case(
+                When(title__iexact=titolo, then=Value(4)),
+                When(title__icontains=titolo, then=Value(3)),
+                When(user__username__iexact=utente, then=Value(2)),
+                When(user__username__icontains=utente, then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField()
+            )
+        )
+    
+    # Filtro condizioni SEMPRE
     if condizioni:
-        posts = posts.filter(conditions = condizioni)
+        posts = posts.filter(conditions=condizioni)
 
-    if ordinamento == 'data_asc':
-        posts = posts.order_by('date_time')
-    elif ordinamento == 'data_desc':
-        posts = posts.order_by('-date_time')
-    elif ordinamento == 'like_desc':
-        posts = posts.order_by('-n_of_like')
-    elif ordinamento == 'wishlist_desc':
-        posts = posts.order_by('-n_of_wishlist')
+    # Ordinamento finale
+    if titolo or utente:
+        posts = posts.order_by('-relevance', '-date_time')  # ha annotate
+    else:
+        if ordinamento == 'data_asc':
+            posts = posts.order_by('date_time')
+        elif ordinamento == 'data_desc':
+            posts = posts.order_by('-date_time')
+        elif ordinamento == 'like_desc':
+            posts = posts.order_by('-n_of_like')
+        elif ordinamento == 'wishlist_desc':
+            posts = posts.order_by('-n_of_wishlist')
 
-    contenuto = {
+    return render(request, 'index.html', {
         'logged_in_profile': logged_in_profile,
-        'posts' : posts,
-        'filter' : {
-            'titolo' : titolo,
+        'posts': posts,
+        'filter': {
+            'titolo': titolo,
             'proprietario': utente,
             'condizioni': condizioni,
-            'ordinamento' : ordinamento
+            'ordinamento': ordinamento,
+            'query': query,
         }
-    }
-    return render(request, 'index.html', contenuto)
+    })
+
+
 
 def login(request):
     if request.method == 'POST':

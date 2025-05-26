@@ -104,3 +104,8 @@ function resetFiltri() {
   document.getElementById('ordinamento').value = 'data_desc';
   document.getElementById('filterForm').submit();
 }
+
+document.getElementById('ordinamento').addEventListener('change', function () {
+    document.getElementById('filterForm').submit();
+  });
+
