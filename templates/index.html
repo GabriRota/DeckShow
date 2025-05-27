@@ -29,7 +29,7 @@
       </button>
       <div class="ordinamento">
         <label for="ordinamento">Ordina per: </label>
-          <select id="ordinamento" name="ordinamento" class="form-control">
+        <select id="ordinamento" name="ordinamento" class="form-control">
           <option value="data_desc" {% if request.GET.ordinamento == "data_desc" %}selected{% endif %}>Più recente</option>
           <option value="data_asc" {% if request.GET.ordinamento == "data_asc" %}selected{% endif %}>Meno recente</option>
           <option value="like_desc" {% if request.GET.ordinamento == "like_desc" %}selected{% endif %}>Like</option>

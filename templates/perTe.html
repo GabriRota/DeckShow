@@ -68,55 +68,21 @@
   </div>
   <div class="sidebar">
     <div class="consigliati">Consigliati</div>
+    {% for profilo in suggeriti %}
     <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
+      <a href="{% url 'user_profile' profilo.user.id %}">
+        <div class="img-profilo">
+          {% if profilo.img_profilo %}
+          <img src="{{ profilo.img_profilo.url }}" class="img-profilo" alt="Immagine profilo">
+          {% else %}
+          <img src="{% static 'img/default.jpg' %}" class="img-profilo" alt="Immagine profilo default">
+          {% endif %}
+        </div>
+        <p class="acc-name">{{ profilo.user.username }}</p>
       </a>
       <button>Unfollow</button>
     </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
-    <div class="account">
-      <a href="">
-        <div class="img-profilo"></div>
-        <p class="acc-name">NOME_ACCOUNT</p>
-      </a>
-      <button>Unfollow</button>
-    </div>
+    {% endfor %}
   </div>
 </div>
 

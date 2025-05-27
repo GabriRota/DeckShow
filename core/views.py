@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Post
 from django_countries import countries
-from django.db.models import Q, Case, When, Value, IntegerField
+from django.db.models import Q, Case, When, Value, IntegerField, Count
 from difflib import SequenceMatcher
 
 
@@ -165,12 +165,38 @@ def logout(request):
 def perTe(request):
     logged_in_profile = Profile.objects.get(user=request.user)
     seguiti = logged_in_profile.seguiti.all()
-    posts = Post.objects.select_related('user', 'user__profile').filter(user__profile__in=seguiti).order_by('-date_time')
+
+    posts = Post.objects.select_related('user', 'user__profile') \
+                        .filter(user__profile__in=seguiti) \
+                        .order_by('-date_time')
+
+    # Amici di amici
+    amici_di_amici = Profile.objects.filter(
+        seguiti__in=seguiti
+    ).exclude(
+        id__in=seguiti
+    ).exclude(
+        id=logged_in_profile.id
+    ).annotate(
+        in_comune=Count('seguiti')
+    ).order_by('-in_comune').distinct()
+
+    suggeriti = list(amici_di_amici[:10])
+
+    # Se meno di 10 suggeriti, riempi con altri utenti casuali
+    if len(suggeriti) < 10:
+        # Prendi ID già suggeriti per evitare duplicati
+        suggeriti_ids = [p.id for p in suggeriti]
+        profili_con_piu_seguiti = Profile.objects.exclude(
+            Q(id__in=seguiti) | Q(id=logged_in_profile.id) | Q(id__in=suggeriti_ids)
+        ).order_by('?')[:10 - len(suggeriti)]
+        suggeriti += list(profili_con_piu_seguiti)
 
     return render(request, 'perTe.html', {
         'logged_in_profile': logged_in_profile,
-        'posts' : posts,
-        })
+        'posts': posts,
+        'suggeriti': suggeriti,
+    })
 
 @login_required(login_url='login')
 def settings(request):
