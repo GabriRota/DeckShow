@@ -147,6 +147,7 @@ def user_profile(request, user_id):
 
     return render(request, 'profile.html', {
         'user': profile_owner, 
+        'seguito': profile_owner_profile,
         'profile_owner': profile_owner_profile, 
         'posts':posts, 
         'logged_in_profile': logged_in_profile,
@@ -270,7 +271,6 @@ def edit_post(request, post_id):
 
 @login_required(login_url='login')
 def delete_post(request, post_id):
-    logged_in_profile = Profile.objects.get(user=request.user)
     post = get_object_or_404(Post, id=post_id)
 
     if post.user != request.user:
@@ -282,20 +282,29 @@ def delete_post(request, post_id):
 
 @login_required(login_url='login')
 def follow_function(request, user_id):
-    target_user = get_object_or_404(User, id=user_id)
-    target_profile = target_user.profile
+    seguito_user = get_object_or_404(User, id=user_id)
+    seguito_profile = get_object_or_404(Profile, user=seguito_user)
     logged_in_profile = request.user.profile
 
-    if(target_profile == logged_in_profile):
-        return HttpResponseForbidden("Operazione non consentita: non puoi seguire te stesso.")
-    if target_profile in logged_in_profile.seguiti.all():
-        logged_in_profile.seguiti.remove(target_profile)
-    else:
-        logged_in_profile.seguiti.add(target_profile)
+    if logged_in_profile == seguito_profile:
+        return JsonResponse({'error': 'Non puoi seguire te stesso'}, status=400)
 
-    next = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/'
-    
-    return redirect (next) #ritorna alla pagine dove è arrivata la richiesta
+    if seguito_profile in logged_in_profile.seguiti.all():
+        logged_in_profile.seguiti.remove(seguito_profile)
+        followed = False
+    else:
+        logged_in_profile.seguiti.add(seguito_profile)
+        followed = True
+
+    follower_count = seguito_profile.followers.count()
+    seguiti_count = logged_in_profile.seguiti.count()
+
+    return JsonResponse({
+        'followed': followed,
+        'follower_count': follower_count,
+        'seguiti_count': seguiti_count,
+        'user_id': seguito_user.id,
+    })
 
 @login_required(login_url='login')
 def like_function(request, post_id):

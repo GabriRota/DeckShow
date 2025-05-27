@@ -9,7 +9,7 @@
 
 {% endblock %}
 {% block content %}
-<div class="profile-info">
+<div class="profile-info" data-profile-user-id="{{ profile_owner.id }}">
   <div class="banner"></div>
   <div class="profile-data">
     <img src="{{ profile_owner.img_profilo.url }}" alt="" class="img-profilo-big" id="img-profilo">
@@ -22,19 +22,14 @@
   </div>
   <div class="stats">
     <p>Post: {{posts|length}}</p>
-    <p>Follower: {{ n_followers }}</p>
-    <p>Seguiti: {{ n_seguiti }}</p>
-    {% if request.user.id != profile_owner.user.id %}
-    <form method="POST" action="{% url 'follow_function' profile_owner.user.id %}">
-      {% csrf_token %}
-      {% if is_following %}
-      <input type="hidden" name="next" value="{{ request.path }}">
-      <button type="submit" class="unfollow-button">Unfollow</button>
-      {% else %}
-      <input type="hidden" name="next" value="{{ request.path }}">
-      <button type="submit" class="follow-button">Follow</button>
-      {% endif %}
-    </form>
+    <p>Followers: <span id="follower-count">{{ n_followers }}</span></p>
+    <p>Seguiti: <span id="seguiti-count">{{ n_seguiti }}</span></p>
+    {% if request.user != seguito.user %}
+    <button type="button"
+      class="{% if seguito in logged_in_profile.seguiti.all %}unfollow-button{% else %}follow-button{% endif %}"
+      data-user-id="{{ seguito.user.id }}">
+      {% if seguito in logged_in_profile.seguiti.all %}Unfollow{% else %}Follow{% endif %}
+    </button>
     {% endif %}
   </div>
 </div>
@@ -122,15 +117,11 @@
           <p class="acc-name">{{ follower.user.username }}</p>
         </a>
         {% if request.user != follower.user %}
-        <form method="POST" action="{% url 'follow_function' follower.user.id %}" style="display: inline;">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}">
-          {% if follower in logged_in_profile.seguiti.all %}
-          <button type="submit" class="unfollow-button-2">Unfollow</button>
-          {% else %}
-          <button type="submit" class="follow-button-2">Follow</button>
-          {% endif %}
-        </form>
+        <button type="button"
+          class="{% if follower in logged_in_profile.seguiti.all %}unfollow-button-2{% else %}follow-button-2{% endif %} follow-toggle"
+          data-user-id="{{ follower.user.id }}">
+          {% if follower in logged_in_profile.seguiti.all %}Unfollow{% else %}Follow{% endif %}
+        </button>
         {% endif %}
       </div>
       {% endfor %}
@@ -144,15 +135,11 @@
           <p class="acc-name">{{ seguito.user.username }}</p>
         </a>
         {% if request.user != seguito.user %}
-        <form method="POST" action="{% url 'follow_function' seguito.user.id %}" style="display: inline;">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}">
-          {% if seguito in logged_in_profile.seguiti.all %}
-          <button type="submit" class="unfollow-button-2">Unfollow</button>
-          {% else %}
-          <button type="submit" class="follow-button-2">Follow</button>
-          {% endif %}
-        </form>
+        <button type="button"
+          class="{% if seguito in logged_in_profile.seguiti.all %}unfollow-button-2{% else %}follow-button-2{% endif %} follow-toggle"
+          data-user-id="{{ seguito.user.id }}">
+          {% if seguito in logged_in_profile.seguiti.all %}Unfollow{% else %}Follow{% endif %}
+        </button>
         {% endif %}
       </div>
       {% endfor %}

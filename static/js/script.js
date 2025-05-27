@@ -70,30 +70,58 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // 👥 Toggle follower/seguiti (Profile)
-  const opt1 = document.getElementById('opt1');
-  const opt2 = document.getElementById('opt2');
-  const followerList = document.getElementById('follower-list');
-  const seguitiList = document.getElementById('seguiti-list');
-  if (opt1 && opt2 && followerList && seguitiList) {
-    opt1.addEventListener('change', function () {
-      if (opt1.checked) {
-        followerList.style.display = 'block';
-        seguitiList.style.display = 'none';
-      }
-    });
-    opt2.addEventListener('change', function () {
-      if (opt2.checked) {
-        followerList.style.display = 'none';
-        seguitiList.style.display = 'block';
-      }
-    });
-  }
+  document.addEventListener('click', function (e) {
+    if (e.target.matches('.follow-button, .unfollow-button, .follow-button-2, .unfollow-button-2, .follow-toggle')) {
+      const button = e.target;
+      const userId = button.dataset.userId;
 
-  const inputRicerca = document.querySelector('.barra-ricerca input[type="text"]');
-  if (inputRicerca) {
-    inputRicerca.focus();
-  }
+      fetch(`/follow/${userId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Cambia classe e testo
+          const isUnfollow = button.classList.contains('unfollow-button') || button.classList.contains('unfollow-button-2');
+
+          button.classList.toggle('follow-button', isUnfollow);
+          button.classList.toggle('unfollow-button', !isUnfollow);
+          button.classList.toggle('follow-button-2', isUnfollow);
+          button.classList.toggle('unfollow-button-2', !isUnfollow);
+
+          button.textContent = isUnfollow ? 'Follow' : 'Unfollow';
+
+          // Usa user_id restituito per decidere cosa aggiornare
+          const currentProfileId = document.querySelector('.profile-info').dataset.profileUserId;
+          // Nel template imposta <body data-profile-user-id="{{ profile_owner.id }}"> (o equivalente)
+          
+          if (String(data.user_id) === currentProfileId) {
+            // Sto guardando il profilo della persona seguita => aggiorno i follower
+            const followerCounter = document.getElementById('follower-count');
+            if (followerCounter) {
+              followerCounter.textContent = data.follower_count;
+            }
+          } else if (String(userId) === currentProfileId) {
+            // Se sto sul mio profilo, e sto modificando i miei seguiti
+            // Aggiorno i seguiti
+            const seguitiCounter = document.getElementById('seguiti-count');
+            if (seguitiCounter) {
+              seguitiCounter.textContent = data.seguiti_count;
+            }
+          } else {
+            // Se sei in qualche altra pagina (es. lista seguiti), aggiorna seguiti count
+            const seguitiCounter = document.getElementById('seguiti-count');
+            if (seguitiCounter) {
+              seguitiCounter.textContent = data.seguiti_count;
+            }
+          }
+        });
+    }
+  });
 });
 
 // 🔄 Funzione globale per resettare i filtri
@@ -106,6 +134,6 @@ function resetFiltri() {
 }
 
 document.getElementById('ordinamento').addEventListener('change', function () {
-    document.getElementById('filterForm').submit();
-  });
+  document.getElementById('filterForm').submit();
+});
 
