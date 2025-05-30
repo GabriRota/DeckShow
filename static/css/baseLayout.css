@@ -92,6 +92,27 @@ button:active{
     color: rgb(0, 65, 150);
 }
 
+#wishlist-container{
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: 432px;
+    height: calc(100% - 70px);
+    background-color: #ffffff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 1em;
+}
+
+#wishlist-container button{
+    float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black
+}
+
 .bar{
     position: fixed;
     top: 70px;
@@ -185,5 +206,9 @@ button:active{
     .nomeSito{
         display: none;
     }
+
+    #wishlist-container{
+    width: auto;
+}
   
   }

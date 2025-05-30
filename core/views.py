@@ -85,8 +85,6 @@ def index(request):
         }
     })
 
-
-
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -325,12 +323,27 @@ def wishlist_function(request, post_id):
     if request.method == 'POST':
         post = get_object_or_404(Post, id=post_id)
         user = request.user
+        profile = user.profile
+
         if user in post.wishlisted_by.all():
             post.wishlisted_by.remove(user)
+            profile.wishlist.remove(post)
             in_wishlist = False
         else:
             post.wishlisted_by.add(user)
+            profile.wishlist.add(post) 
             in_wishlist = True
+
+        post.n_of_wishlist = post.wishlisted_by.count()
+        post.save()
+
         return JsonResponse({'in_wishlist': in_wishlist})
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+@login_required(login_url='login')
+def wishlist_view(request):
+    logged_in_profile = Profile.objects.get(user=request.user)
+    wishlist = logged_in_profile.wishlist.all().order_by('-date_time')
+    return render(request, 'wishlist.html', {
+        'wishlist' : wishlist
+    })

@@ -1,0 +1,45 @@
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.wishlist_post{
+    height: 100px;
+    display: flex;
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+.immagine_fronte {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    margin-right: 1em;
+}
+
+.info-post {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    overflow: hidden; 
+}
+
+.titolo-wishlist, .autore-wishlist {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+
+.titolo-wishlist{
+    height: min-content;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.autore-wishlist{
+    font-size: 14px;
+    color: #606060;
+}

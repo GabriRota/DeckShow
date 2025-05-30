@@ -1,0 +1,13 @@
+{% if wishlist %}
+    {% for post in wishlist %}
+    <a href="{% url 'user_profile' post.user.id %}">
+        <div class="wishlist_post">
+            <img class="immagine_fronte" src="{{post.image_front.url}}" alt="">
+            <div class="info-post">
+                <p class="titolo-wishlist">{{post.title}}</p>
+                <p class="autore-wishlist">{{post.user}}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+{% endif %}

@@ -70,6 +70,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // 👥 Toggle tra lista follower e seguiti
+  const opt1 = document.getElementById('opt1');
+  const opt2 = document.getElementById('opt2');
+  const followerList = document.getElementById('follower-list');
+  const seguitiList = document.getElementById('seguiti-list');
+
+  function toggleFollowLists() {
+    if (opt1.checked) {
+      followerList.style.display = 'block';
+      seguitiList.style.display = 'none';
+    } else if (opt2.checked) {
+      followerList.style.display = 'none';
+      seguitiList.style.display = 'block';
+    }
+  }
+
+  // Inizializza la visualizzazione corretta
+  toggleFollowLists();
+
+  // Aggiungi i listener
+  opt1.addEventListener('change', toggleFollowLists);
+  opt2.addEventListener('change', toggleFollowLists);
+
   document.addEventListener('click', function (e) {
     if (e.target.matches('.follow-button, .unfollow-button, .follow-button-2, .unfollow-button-2, .follow-toggle')) {
       const button = e.target;
@@ -98,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
           // Usa user_id restituito per decidere cosa aggiornare
           const currentProfileId = document.querySelector('.profile-info').dataset.profileUserId;
           // Nel template imposta <body data-profile-user-id="{{ profile_owner.id }}"> (o equivalente)
-          
+
           if (String(data.user_id) === currentProfileId) {
             // Sto guardando il profilo della persona seguita => aggiorno i follower
             const followerCounter = document.getElementById('follower-count');

@@ -3,36 +3,42 @@ body {
     font-family: sans-serif;
 }
 
+p{
+    margin: 0;
+}
+
 .profile-info {
     position: relative;
     width: 100%;
-    height: 12em;
+    height: 10em;
     color: white;
+    background: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255));
     font-weight: 600;
     font-size: 24px;
     display: flex;
-    margin-bottom: 50px;
-}
-
-.profile-info p {
-    padding-left: 1.5em;
-}
-
-.banner {
-    background: linear-gradient(90deg, rgb(0, 65, 150), rgb(0, 110, 255));
-    width: 100%;
-    height: 10em;
-    position: relative
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1em;
+    box-sizing: border-box;
+    margin-bottom: 3em;
 }
 
 .profile-data {
-    position: absolute;
-    left: 1.5em;
-    bottom: 0px;
-    height: 6em;
+    height: calc(100%);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
 }
+
+.stats {
+    position: absolute;
+    top: 5.5em;
+    right: 30px;
+    display: flex;
+    gap: 1em;
+}
+
 
 .fi {
     display: inline-block;
@@ -48,35 +54,28 @@ body {
     border-radius: 50%;
 }
 
-.stats {
+.follow-button,
+.unfollow-button{
     position: absolute;
-    right: 1.5em;
-    bottom: 0em;
-    height: 6em;
-    display: flex;
-    align-items: center;
+    bottom: 24px;
+    right: 24px;
+    height: 35px;
+    width: 100px;
+    border-radius: 100px;
+    font-weight: 800;
 }
 
 .follow-button{
-    margin-left: 2em !important;
-    height: 35px;
-    width: 100px;
     border: 2px solid white;
     background-color: rgb(255, 217, 0);
-    border-radius: 100px;
     color: white;
-    font-weight: 800;
+    
 }
 
 .unfollow-button{
-    margin-left: 2em !important;
-    height: 35px;
-    width: 100px;
     border: 2px solid rgb(255, 217, 0);
     background-color: white;
-    border-radius: 100px;
     color: rgb(255, 217, 0);
-    font-weight: 800;
 }
 
 .container-padre {
@@ -365,10 +364,6 @@ input[type="radio"]:checked+label {
 
 
 @media screen and (max-width: 1200px) {
-    .profile-info {
-        height: 10em;
-    }
-
     .sidebar {
         display: none;
     }
@@ -376,40 +371,10 @@ input[type="radio"]:checked+label {
     .grid-container {
         width: 100%;
     }
+}
 
-    .profile-data {
-        top: 0.5em;
-        position: absolute;
-        flex-direction: column;
-        width: 100%;
-        height: auto;
-        left: 0;
-    }
-
-    .nome-utente {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-        margin-top: 0.5em;
-    }
-
-    .stats {
-        left: 0;
-        width: 100%;
-        text-align: center;
-        height: auto;
-    }
-
-    .stats p {
-        padding: 0;
-        flex: 1;
-    }
-
-    .profile-info p {
-        font-size: 20px;
-        padding-left: 0;
-    }
+@media screen and (max) {
+    
 }
 
 @media screen and (max-width: 600px) {

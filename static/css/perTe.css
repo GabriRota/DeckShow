@@ -181,8 +181,7 @@ a{
     flex-shrink: 0;
 }
 
-.autore,
-.descrizione {
+.autore{
     font-size: 14px;
     color: #606060;
     margin: 0;
@@ -190,6 +189,7 @@ a{
 
 .descrizione {
     margin: 0;
+    font-size: 14px;
     color: black;
     word-wrap: break-word;
     overflow-wrap: break-word;
