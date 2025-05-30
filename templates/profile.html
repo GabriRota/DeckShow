@@ -21,9 +21,9 @@
     </p>
   </div>
   <div class="stats">
-    <p>Post: {{posts|length}}</p>
-    <p>Followers: <span id="follower-count">{{ n_followers }}</span></p>
-    <p>Seguiti: <span id="seguiti-count">{{ n_seguiti }}</span></p>
+    <p class="post">Post: {{posts|length}}</p>
+    <p class="followers">Followers: <span id="follower-count">{{ n_followers }}</span></p>
+    <p class="seguiti">Seguiti: <span id="seguiti-count">{{ n_seguiti }}</span></p>
   </div>
   {% if request.user != seguito.user %}
     <button type="button"

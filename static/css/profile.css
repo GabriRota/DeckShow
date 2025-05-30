@@ -3,7 +3,7 @@ body {
     font-family: sans-serif;
 }
 
-p{
+p {
     margin: 0;
 }
 
@@ -32,9 +32,7 @@ p{
 }
 
 .stats {
-    position: absolute;
-    top: 5.5em;
-    right: 30px;
+    padding-top: 4em;
     display: flex;
     gap: 1em;
 }
@@ -55,7 +53,7 @@ p{
 }
 
 .follow-button,
-.unfollow-button{
+.unfollow-button {
     position: absolute;
     bottom: 24px;
     right: 24px;
@@ -65,14 +63,14 @@ p{
     font-weight: 800;
 }
 
-.follow-button{
+.follow-button {
     border: 2px solid white;
     background-color: rgb(255, 217, 0);
     color: white;
-    
+
 }
 
-.unfollow-button{
+.unfollow-button {
     border: 2px solid rgb(255, 217, 0);
     background-color: white;
     color: rgb(255, 217, 0);
@@ -111,7 +109,7 @@ p{
     flex-direction: row;
 }
 
-.azioni a{
+.azioni a {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,11 +118,11 @@ p{
     text-decoration: none;
 }
 
-.edit{ 
+.edit {
     background-color: rgb(255, 217, 0);
 }
 
-.delete{
+.delete {
     background-color: red;
 }
 
@@ -240,7 +238,7 @@ p{
     align-items: center;
 }
 
-.simboli > i {
+.simboli>i {
     margin-right: 1em;
     color: black;
 }
@@ -259,12 +257,12 @@ p{
     color: white;
 }
 
-.like_button{
+.like_button {
     background-color: white;
     border: none;
 }
 
-.wishlist_button{
+.wishlist_button {
     background-color: white;
     border: none;
 }
@@ -338,7 +336,7 @@ input[type="radio"]:checked+label {
     color: black;
 }
 
-.follow-button-2{
+.follow-button-2 {
     position: static;
     margin-left: auto;
     height: 35px;
@@ -373,11 +371,63 @@ input[type="radio"]:checked+label {
     }
 }
 
-@media screen and (max) {
-    
+@media screen and (max-width: 900px) {
+    .profile-info {
+        height: 8em;
+    }
+
+    .img-profilo-big {
+        height: 4em;
+        width: 4em;
+    }
+
+    .nome-utente,
+    .stats p {
+        font-size: 20px;
+    }
+
+    .stats{
+        padding-top: 2.8em;
+    }
 }
 
 @media screen and (max-width: 600px) {
+    
+    .profile-info{
+        justify-content: center;
+        height: 7em;
+        padding: 0.5em;
+    }
+    
+    .stats{
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding-top: 1em;
+        gap: 0.5em;
+    }
+
+    .stats p{
+        font-size: 16px;
+    }
+
+    .post{
+        max-width: 40px;
+    }
+
+    .followers{
+        max-width: 80px;
+    }
+
+    .seguiti{
+        max-width: 60px;
+    }
+
+    .follow-button,
+    .unfollow-button{
+        bottom: 12px;
+        right: 12px;
+    }
 
     .grid-container {
         margin: 0;
