@@ -14,7 +14,7 @@
 <body>
     <a href="{% url 'index' %}" class="home-button"><i title="Esplora" class="fa-solid fa-house fa-xl"
             style="color: #ffffff;"></i></a>
-    <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><img src="{{user_profile.img_profilo.url}}" class="img-profile" alt="" id="img-profile"></a>
+    <a href="{% url 'user_profile' request.user.id %}" title="Profilo"><img class="img-profile" src="{{ logged_in_profile.img_profilo.url }}" id="img-profile" alt="Immagine profilo"></a>
     <div class="container">
         <h1>Impostazioni <span class="username">@{{user.username}}</span></h1>
         <form action="{% url 'settings' %}" method="POST" enctype="multipart/form-data">
