@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+    <title>Registrazione</title>
     <link rel="stylesheet" href="{% static 'css/reg-log.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <a href="{% url 'index' %}" class="home-button"><i class="fa-solid fa-house fa-xl" style="color: #ffffff;"></i></a>
     <div class="container">
-        <h1>Sign up</h1>
+        <h1>Registrazione</h1>
 
         <div class="error">
             {% for message in messages %}
@@ -35,10 +35,10 @@
             </div>
             <div class="field">
                 <span><i class="fa-solid fa-key" style="color: #ffffff;"></i></span>
-                <input type="password" placeholder="Confirm password" name="confirmPassword" required>
+                <input type="password" placeholder="Conferma password" name="confirmPassword" required>
             </div>
-            <button type="submit">Sign up now</button>
-            <p>Already have an account? <a href="{% url 'login' %}">Login now</a></p>
+            <button type="submit">Registrati ora</button>
+            <p>Hai già un account? <a href="{% url 'login' %}">Accedi ora!</a></p>
         </form>
     </div>
 </body>

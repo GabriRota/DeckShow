@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Accesso</title>
     <link rel="stylesheet" href="{% static 'css/reg-log.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <a href="{% url 'index' %}" class="home-button"><i class="fa-solid fa-house fa-xl" style="color: #ffffff;"></i></a>
     <div class="container">
-        <h1>Login</h1>
+        <h1>Accesso</h1>
         <div class="error">
             {% for message in messages %}
             <h5>{{message}}</h5>
@@ -21,14 +21,14 @@
             {% csrf_token %}
             <div class="field">
                 <span><i class="fa-solid fa-envelope" style="color: #ffffff;"></i></span>
-               <input type="text" placeholder="Username" name="username" required> 
+               <input type="text" placeholder="Mail o Username" name="username" required> 
             </div>
             <div class="field">
                 <span><i class="fa-solid fa-key" style="color: #ffffff;"></i></i></span>
                 <input type="password" placeholder="Password" name="password" required>
             </div>
-            <button type="submit">Login</button>
-            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up now</a></p>
+            <button type="submit">Accesso</button>
+            <p>Non hai un account? <a href="{% url 'signup' %}">Registrati ora!</a></p>
         </form>
     </div>
 </body>
