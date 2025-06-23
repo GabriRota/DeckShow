@@ -26,14 +26,17 @@
 
       <div class="contenuto-post">
         <div class="header-post">
-          <a href="{% url 'user_profile' user_id=post.user.id %}"><img src="{{ post.user.profile.img_profilo.url }}" class="img-profilo-post" alt="Immagine profilo"></a>
+          <a href="{% url 'user_profile' user_id=post.user.id %}"><img src="{{ post.user.profile.img_profilo.url }}"
+              class="img-profilo-post" alt="Immagine profilo"></a>
           <div class="info-post">
             <div class="prima-riga">
               <p class="titolo">{{ post.title }}</p>
               <div class="condizioni">{{ post.conditions|condition_emoji|safe}} {{ post.conditions }}</div>
             </div>
             <div class="seconda-riga">
-              <a href="{% url 'user_profile' user_id=post.user.id %}"><p class="autore">{{ post.user }}</p></a>
+              <a href="{% url 'user_profile' user_id=post.user.id %}">
+                <p class="autore">{{ post.user }}</p>
+              </a>
             </div>
             <p class="descrizione">{{ post.description }}</p>
           </div>
@@ -48,14 +51,14 @@
             {% else %}
             <i class="fa-regular fa-heart fa-xl" style="color: rgb(0, 0, 0);"></i>
             {% endif %}
-        </button>
-        <button type="button" class="wishlist_button" data-post-id="{{ post.id }}">
+          </button>
+          <button type="button" class="wishlist_button" data-post-id="{{ post.id }}">
             {% if request.user in post.wishlisted_by.all %}
             <i class="fa-solid fa-clipboard fa-xl" style="color: rgb(0, 65, 150);"></i>
             {% else %}
             <i class="fa-regular fa-clipboard fa-xl" style="color: rgb(0, 0, 0);"></i>
             {% endif %}
-        </button>
+          </button>
           {% if post.link %}
           <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-store" style="color:rgb(255, 255, 255);"></i>
@@ -81,7 +84,13 @@
         </div>
         <p class="acc-name">{{ profilo.user.username }}</p>
       </a>
-      <button>Unfollow</button>
+      {% if request.user != seguito.user %}
+      <button type="button"
+        class="{% if seguito in logged_in_profile.seguiti.all %}unfollow-button{% else %}follow-button{% endif %} follow-toggle"
+        data-user-id="{{ seguito.user.id }}">
+        {% if seguito in logged_in_profile.seguiti.all %}Unfollow{% else %}Follow{% endif %}
+      </button>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
